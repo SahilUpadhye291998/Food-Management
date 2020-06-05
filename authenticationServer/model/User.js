@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 let User = mongoose.Schema({
   name: {
@@ -28,6 +28,10 @@ let User = mongoose.Schema({
     required: true,
     unique: true,
   },
+  isAuthorized: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = User = mongoose.model("User", User);
+module.exports = User = mongoose.model('User', User);
