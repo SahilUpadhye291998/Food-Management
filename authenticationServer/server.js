@@ -25,7 +25,7 @@ mongoose
   });
 
 app.use('/api/user', user);
-const PORT = 3000 || process.env.PORT;
+const PORT = 5000 || process.env.PORT;
 //starting point of the server is placed here
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
