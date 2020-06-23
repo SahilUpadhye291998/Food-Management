@@ -371,7 +371,7 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    ThreeOrgsOrdererGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -385,7 +385,8 @@ Profiles:
                     - *Org1
                     - *Org2
                     - *Org3
-    OrgsChannel:
+
+    ThreeOrgsChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
@@ -394,6 +395,30 @@ Profiles:
                 - *Org1
                 - *Org2
                 - *Org3
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    TwoOrgsOrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+                    - *Org2
+    TwoOrgsChannel:
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2
             Capabilities:
                 <<: *ApplicationCapabilities
 
@@ -421,7 +446,6 @@ Profiles:
                 Organizations:
                 - *Org1
                 - *Org2
-                - *Org3
 
     SampleMultiNodeEtcdRaft:
         <<: *ChannelDefaults
@@ -472,4 +496,3 @@ Profiles:
                 Organizations:
                 - *Org1
                 - *Org2
-                - *Org3
