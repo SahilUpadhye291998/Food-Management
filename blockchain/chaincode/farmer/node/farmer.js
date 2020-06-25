@@ -32,70 +32,6 @@ let Chaincode = class {
   }
 
   async initFarmer(stub, args, thisClass) {
-    if (args.length != 6) {
-      throw new Error("Incorrect number of arguments. Expecting 4");
-    }
-    console.info("--- start init farmers ---");
-    if (args[0].length <= 0) {
-      throw new Error("1st argument must be a non-empty string");
-    }
-    if (args[1].length <= 0) {
-      throw new Error("2nd argument must be a non-empty string");
-    }
-    if (args[2].length <= 0) {
-      throw new Error("3rd argument must be a non-empty string");
-    }
-    if (args[3].length <= 0) {
-      throw new Error("4th argument must be a non-empty string");
-    }
-    if (args[4].length <= 0) {
-      throw new Error("5th argument must be a non-empty string");
-    }
-    if (args[5].length <= 0) {
-      throw new Error("5th argument must be a non-empty string");
-    }
-    let farmerName = args[0];
-    let farmerAddress = args[1];
-    let farmerMobile = args[2];
-    let farmerSecret = args[3];
-    let farmerAmount = parseInt(args[4]);
-    if (typeof farmerAmount !== "number") {
-      throw new Error(`3rd argument should be a numeric type`);
-    }
-    let farmerPremiumAmount = parseFloat(args[5]);
-    if (typeof farmerPremiumAmount !== "number") {
-      throw new Error(`3rd argument should be a numeric type`);
-    }
-
-    let farmerState = await stub.getState(farmerName);
-    if (farmerState.toString()) {
-      throw new Error(`User already exists`);
-    }
-
-    let farmer = {};
-    farmer.docType = "farmer";
-    farmer.name = farmerName;
-    farmer.mobile = farmerMobile;
-    farmer.address = farmerAddress;
-    farmer.secret = farmerSecret;
-    farmer.amount = farmerAmount;
-    farmer.premiumAmount = farmerPremiumAmount;
-    farmer.compansatedAmount = 0;
-
-    await stub.putState(farmerName, Buffer.from(JSON.stringify(farmer)));
-
-    let indexName = `secret~name`;
-    let secretNameIndexKey = await stub.createCompositeKey(indexName, [
-      farmer.secret,
-      farmer.name,
-    ]);
-    console.log(secretNameIndexKey);
-
-    await stub.putState(secretNameIndexKey, Buffer.from("\u0000"));
-    console.info("end of initialzation");
-  }
-
-  async initCompany(stub, args, thisClass) {
     if (args.length != 5) {
       throw new Error("Incorrect number of arguments. Expecting 4");
     }
@@ -115,34 +51,37 @@ let Chaincode = class {
     if (args[4].length <= 0) {
       throw new Error("5th argument must be a non-empty string");
     }
-    let companyName = args[0];
-    let companyAddress = args[1];
-    let companyMobile = args[2];
-    let companySecret = args[3];
-    let companyAmount = parseInt(args[4]);
-    if (typeof companyAmount !== "number") {
+    let farmerName = args[0];
+    let farmerAddress = args[1];
+    let farmerMobile = args[2];
+    let farmerSecret = args[3];
+    let farmerAmount = parseInt(args[4]);
+    if (typeof farmerAmount !== "number") {
       throw new Error(`3rd argument should be a numeric type`);
     }
 
-    let companyState = await stub.getState(companyName);
-    if (companyState.toString()) {
+    let farmerState = await stub.getState(farmerName);
+    if (farmerState.toString()) {
       throw new Error(`User already exists`);
     }
 
-    let company = {};
-    company.docType = "company";
-    company.name = companyName;
-    company.mobile = companyMobile;
-    company.address = companyAddress;
-    company.secret = companySecret;
-    company.totalAmount = companyAmount;
+    let farmer = {};
+    farmer.docType = "farmer";
+    farmer.id=farmerName+farmerMobile;
+    farmer.name = farmerName;
+    farmer.mobile = farmerMobile;
+    farmer.address = farmerAddress;
+    farmer.secret = farmerSecret;
+    farmer.amount = farmerAmount;
+    farmer.premiumAmount = farmerPremiumAmount;
+    farmer.farmer_supplier = [];
 
-    await stub.putState(companyName, Buffer.from(JSON.stringify(company)));
+    await stub.putState(farmerName, Buffer.from(JSON.stringify(farmer)));
 
     let indexName = `secret~name`;
     let secretNameIndexKey = await stub.createCompositeKey(indexName, [
-      company.secret,
-      company.name,
+      farmer.secret,
+      farmer.name,
     ]);
     console.log(secretNameIndexKey);
 
@@ -150,7 +89,7 @@ let Chaincode = class {
     console.info("end of initialzation");
   }
 
-  async readUser(stub, args, thisClass) {
+  async readFarmer(stub, args, thisClass) {
     if (args.length != 1) {
       throw new Error(
         "Incorrect number of arguments. Expecting name of the marble to query"

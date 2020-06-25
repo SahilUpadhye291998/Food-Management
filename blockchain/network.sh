@@ -173,8 +173,28 @@ function networkUp(){
       export BYFN_CA3_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org3.example.com/ca && ls *_sk)
       docker-compose -f docker-compose-cli.yaml -f docker-compose-couch.yaml -f docker-compose-e2e.yaml up -d
       docker ps
-      docker exec cli /bin/sh -c "scripts/networkUp_insurance.sh"
-      #docker exec cli /bin/sh -c "scripts/testChaincode_insurance.sh"
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "                         Installing chaincode                      "
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_customer.sh"
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_supplier.sh"
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_farmer.sh"
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "                           Testing chaincode                       "
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_customer.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_supplier.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_farmer.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement.sh"
+
     else
       docker-compose -f docker-compose-cli.yaml -f docker-compose-couch.yaml up -d
       docker ps
@@ -200,7 +220,7 @@ function networkDown() {
 CONSENSUS_TYPE="solo"
 CLI_TIMEOUT=100
 CLI_DELAY=30
-SYS_CHANNEL="insurance-sys-channel"
+SYS_CHANNEL="food-sys-channel"
 CERTIFICATE_AUTHORITIES=true
 CHANNEL_NAME="mychannel"
 LANGUAGE=javascript
@@ -213,7 +233,7 @@ COMPOSE_FILE_CA=docker-compose-ca.yaml
 IMAGETAG="latest"
 export $IMAGETAG="latest"
 export IMAGE_TAG=latest
-
+export COMPOSE_PROJECT_NAME=blockchain
 MODE=$1
 shift
 if [ "$MODE" == "generate" ]; then

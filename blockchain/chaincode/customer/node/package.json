@@ -2,12 +2,14 @@
     "name": "insurance",
     "version": "1.0.0",
     "description": "Sample custom made testENV",
-    "main": "insurance_chaincode.js",
+    "main": "customer.js",
     "engines": {
         "node": ">=8.4.0",
         "npm": ">=5.3.0"
     },
-    "scripts": { "start": "node insurance_chaincode.js" },
+    "scripts": {
+        "start": "node customer.js"
+    },
     "engine-strict": true,
     "author": "xGod666",
     "license": "ISC",

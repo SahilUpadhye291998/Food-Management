@@ -32,7 +32,7 @@ let Chaincode = class {
   }
 
   async initSupplier(stub, args, thisClass) {
-    if (args.length != 6) {
+    if (args.length != 5) {
       throw new Error("Incorrect number of arguments. Expecting 4");
     }
     console.info("--- start init suppliers ---");
@@ -51,19 +51,12 @@ let Chaincode = class {
     if (args[4].length <= 0) {
       throw new Error("5th argument must be a non-empty string");
     }
-    if (args[5].length <= 0) {
-      throw new Error("5th argument must be a non-empty string");
-    }
     let supplierName = args[0];
     let supplierAddress = args[1];
     let supplierMobile = args[2];
     let supplierSecret = args[3];
     let supplierAmount = parseInt(args[4]);
     if (typeof supplierAmount !== "number") {
-      throw new Error(`3rd argument should be a numeric type`);
-    }
-    let supplierPremiumAmount = parseFloat(args[5]);
-    if (typeof supplierPremiumAmount !== "number") {
       throw new Error(`3rd argument should be a numeric type`);
     }
 
@@ -74,13 +67,14 @@ let Chaincode = class {
 
     let supplier = {};
     supplier.docType = "supplier";
+    supplier.id = supplierName+supplierMobile;
     supplier.name = supplierName;
     supplier.mobile = supplierMobile;
     supplier.address = supplierAddress;
     supplier.secret = supplierSecret;
     supplier.amount = supplierAmount;
-    supplier.premiumAmount = supplierPremiumAmount;
-    supplier.compansatedAmount = 0;
+    supplier.supplier_farmer = [];
+    supplier.supplier_customer = [];
 
     await stub.putState(supplierName, Buffer.from(JSON.stringify(supplier)));
 
