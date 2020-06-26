@@ -73,18 +73,17 @@ peer chaincode invoke -o orderer.example.com:7050 \
 echo "Sleeping for 5 sec"
 sleep 3
 
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readCustomer","xGod66612345678"]}'
-# echo ""
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplier","Sahil12345678"]}'
-# echo ""
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readFarmer","FarmerTest12345678"]}'
-# echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readCustomer","xGod66612345678"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplier","Sahil12345678"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readFarmer","FarmerTest12345678"]}'
+echo ""
 peer chaincode query -C mychannel -n mycc -c  '{"Args":["readCustomerSupplierData","xGod66612345678"]}'
-# echo ""
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplierFarmerData","Sahil12345678"]}'
-# echo ""
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplierCustomerData","Sahil12345678"]}'
-# echo ""
-# peer chaincode query -C mychannel -n mycc -c  '{"Args":["readFarmerSupplierData","FarmerTest12345678"]}'
-# echo ""
-
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplierFarmerData","Sahil12345678"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplierCustomerData","Sahil12345678"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["readFarmerSupplierData","FarmerTest12345678"]}'
+echo ""
