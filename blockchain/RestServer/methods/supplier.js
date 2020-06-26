@@ -40,7 +40,6 @@ async function registerSupplier(secretSupplierName, companyOrg) {
 
     const secret = await ca.register(
       {
-        affiliation: `${companyOrg}.department1`,
         enrollmentID: `${secretSupplierName}`,
         role: "client",
       },

@@ -7,14 +7,13 @@ const path = require("path");
 
 const ccpPath = path.resolve(__dirname, "..", "..", "connection-org3.json");
 
-async function registerFarmer(secretFarmerName, companyOrg) {
+async function registerFarmer(secretSupplierName, companyOrg) {
   try {
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = new FileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
-    console.log(companyOrg);
 
-    const userExists = await wallet.exists(secretFarmerName);
+    const userExists = await wallet.exists(secretSupplierName);
     if (userExists) {
       console.log(
         'An identity for the user "user1" already exists in the wallet'
@@ -24,7 +23,7 @@ async function registerFarmer(secretFarmerName, companyOrg) {
     const adminExists = await wallet.exists("adminOrg3");
     if (!adminExists) {
       console.log(
-        'An identity for the admin user "adminOrg3" does not exist in the wallet'
+        'An identity for the admin user "adminOrg2" does not exist in the wallet'
       );
       console.log("Run the enrollAdmin.js application before retrying");
       return;
@@ -41,15 +40,13 @@ async function registerFarmer(secretFarmerName, companyOrg) {
 
     const secret = await ca.register(
       {
-        affiliation: `${companyOrg}.department1`,
-        enrollmentID: `${secretFarmerName}`,
+        enrollmentID: `${secretSupplierName}`,
         role: "client",
       },
       adminIdentity
     );
-    console.log("ok");
     const enrollment = await ca.enroll({
-      enrollmentID: `${secretFarmerName}`,
+      enrollmentID: `${secretSupplierName}`,
       enrollmentSecret: secret,
     });
 
@@ -61,7 +58,7 @@ async function registerFarmer(secretFarmerName, companyOrg) {
       enrollment.key.toBytes()
     );
 
-    await wallet.import(secretFarmerName, userIdentity);
+    await wallet.import(secretSupplierName, userIdentity);
     console.log(
       'Successfully registered and enrolled admin user "user1" and imported it into the wallet'
     );
