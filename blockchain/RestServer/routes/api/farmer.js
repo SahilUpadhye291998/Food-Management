@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const user = require("../../methods/company");
+const user = require("../../methods/farmer");
 
 //@route    POST api/company/registerCompany
 //@desc     To generate Company credentials
 //@access   PUBLIC
-router.post("/registerCompany", async (req, res) => {
+router.post("/registerFarmer", async (req, res) => {
   console.log(req.body.orgName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyOrg = req.body.orgName;
+  const secretFarmerName = req.body.secretFarmerName;
+  const farmerOrg = req.body.orgName;
   const json = {};
   user
-    .registerCompany(secretCompanyName, companyOrg)
+    .registerFarmer(secretFarmerName, farmerOrg)
     .then(() => {
       json.code = 200;
       json.Message = "Company enrolled successfully";
@@ -31,21 +31,21 @@ router.post("/registerCompany", async (req, res) => {
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
   console.log(req.body.secretCompanyName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
-  const companyAddress = req.body.companyAddress;
-  const companyMobile = req.body.companyMobile;
-  const companySecret = req.body.companySecret;
-  const companyAmount = req.body.companyAmount;
+  const secretFarmerName = req.body.secretFarmerName;
+  const farmerName = req.body.farmerName;
+  const farmerAddress = req.body.farmerAddress;
+  const farmerMobile = req.body.farmerMobile;
+  const farmerSecret = req.body.farmerSecret;
+  const farmerAmount = req.body.farmerAmount;
   const json = {};
   user
-    .initCompany(
-      secretCompanyName,
-      companyName,
-      companyAddress,
-      companyMobile,
-      companySecret,
-      companyAmount
+    .initFarmer(
+      secretFarmerName,
+      farmerName,
+      farmerAddress,
+      farmerMobile,
+      farmerSecret,
+      farmerAmount
     )
     .then((result) => {
       res.status(200).send(result);
@@ -58,20 +58,21 @@ router.post("/signup", (req, res) => {
     });
 });
 
-//@route    POST api/company/login
+//@route    POST api/farmer/login
 //@desc     To login Company from Blockchain
 //@access   PUBLIC
 router.post("/login", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
-  const companyPassword = req.body.companySecret;
+  const secretFarmerName = req.body.secretFarmerName;
+  const farmerName = req.body.farmerName;
+  const farmerMobile = req.body.farmerMobile;
+  const farmerPassword = req.body.farmerSecret;
   const json = {};
   user
-    .readCompanyByOwnerAndPassword(
-      secretCompanyName,
-      companyName,
-      companyPassword
+    .readFarmerByOwnerAndPassword(
+      secretFarmerName,
+      farmerName + farmerMobile,
+      farmerPassword
     )
     .then((result) => {
       res.status(200).send(result);
@@ -89,11 +90,13 @@ router.post("/login", (req, res) => {
 //@access   PUBLIC
 router.post("/readCompany", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
+  const secretFarmerName = req.body.secretFarmerName;
+  const farmerName = req.body.farmerName;
+  const farmerMobile = req.body.farmerMobile;
+
   const json = {};
   user
-    .readCompany(secretCompanyName, companyName)
+    .readFarmer(secretFarmerName, farmerName + farmerMobile)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -110,11 +113,13 @@ router.post("/readCompany", (req, res) => {
 //@access   PUBLIC
 router.post("/readCompanyHistory", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
+  const secretFarmerName = req.body.secretFarmerName;
+  const farmerName = req.body.farmerName;
+  const farmerMobile = req.body.farmerMobile;
+
   const json = {};
   user
-    .readCompanyHistory(secretCompanyName, companyName)
+    .readFarmerHistory(secretFarmerName, farmerName + farmerMobile)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -125,6 +130,5 @@ router.post("/readCompanyHistory", (req, res) => {
       res.status(500).send(json);
     });
 });
-
 
 module.exports = router;

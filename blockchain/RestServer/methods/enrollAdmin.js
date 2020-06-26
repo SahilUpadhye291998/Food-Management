@@ -82,7 +82,7 @@ async function enrollSupplier() {
       enrollmentSecret: "adminpw",
     });
     let identityOrg2 = X509WalletMixin.createIdentity(
-      "Org1MSP",
+      "Org2MSP",
       enrollment.certificate,
       enrollment.key.toBytes()
     );

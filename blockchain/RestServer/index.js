@@ -2,12 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
-//call user defined imports
 const admin = require("./routes/api/admin");
-const user = require("./routes/api/user");
-const company = require("./routes/api/company");
+const customer = require("./routes/api/customer");
+const supplier = require("./routes/api/supplier");
+const farmer = require("./routes/api/farmer");
 
-// use middlewares
 app.use(express.json());
 app.use(
   bodyParser.urlencoded({
@@ -15,17 +14,13 @@ app.use(
   })
 );
 
-// sample test route
-app.get("/", (req, res) => {
-  console.log("Get Request Successful");
-  res.send("Get Route Working");
-});
-
 app.use("/api/admin", admin);
-app.use("/api/user", user);
-app.use("/api/company", company);
+app.use("/api/customer", customer);
+app.use("/api/supplier", supplier);
+app.use("/api/farmer", farmer);
+//
 //start server.
-const PORT = 3000 || process.env.PORT;
+const PORT = 5000 || process.env.PORT;
 app.listen(PORT, (req, res, next) => {
   console.log(`Server started at ${PORT}`);
 });

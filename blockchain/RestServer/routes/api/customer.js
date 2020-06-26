@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const user = require("../../methods/user");
+const user = require("../../methods/customer");
 
 //@route    POST api/user/registerUser
 //@desc     To generate User credentials
@@ -12,7 +12,7 @@ router.post("/registerUser", async (req, res) => {
   const userOrg = req.body.orgName;
   const json = {};
   user
-    .registerUser(secretUserName, userOrg)
+    .registerCustomer(secretUserName, userOrg)
     .then(() => {
       json.code = 200;
       json.Message = "User enrolled successfully";
@@ -33,10 +33,15 @@ router.post("/login", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.username;
+  const userMobile = req.body.userMobile;
   const userPassword = req.body.userPassword;
   const json = {};
   user
-    .readUserByOwnerAndPassword(secretUserName, userName, userPassword)
+    .readCustomerByOwnerAndPassword(
+      secretUserName,
+      userName + userMobile,
+      userPassword
+    )
     .then((result) => {
       res.status(200).send(result);
     })
@@ -59,17 +64,15 @@ router.post("/signup", (req, res) => {
   const userMobile = req.body.userMobile;
   const userSecret = req.body.userPassword;
   const userAmount = req.body.userAmount;
-  const userPremiumAmount = req.body.userPremiumAmount;
   const json = {};
   user
-    .initUser(
+    .initCustomer(
       secretUserName,
       userName,
       userAddress,
       userMobile,
       userSecret,
-      userAmount,
-      userPremiumAmount
+      userAmount
     )
     .then((result) => {
       res.status(200).send(result);
@@ -89,9 +92,10 @@ router.post("/getUser", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.username;
+  const userMobile = req.body.userMobile;
   const json = {};
   user
-    .readUser(secretUserName, userName)
+    .readCustomer(secretUserName, userName + userMobile)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -110,9 +114,10 @@ router.post("/getUserHistory", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.username;
+  const userMobile = req.body.userMobile;
   const json = {};
   user
-    .readUserHistory(secretUserName, userName)
+    .readCustomerHistory(secretUserName, userName + userMobile)
     .then((result) => {
       json.code = 200;
       json.data = result;

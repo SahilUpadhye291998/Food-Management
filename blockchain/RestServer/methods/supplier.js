@@ -74,8 +74,7 @@ async function initSupplier(
   companyName,
   companyAddress,
   companyMobile,
-  companySecret,
-  companyAmount
+  companySecret
 ) {
   try {
     const walletPath = path.join(process.cwd(), "wallet");
@@ -107,8 +106,7 @@ async function initSupplier(
       companyName,
       companyAddress,
       companyMobile,
-      companySecret,
-      companyAmount
+      companySecret
     );
 
     const json = {

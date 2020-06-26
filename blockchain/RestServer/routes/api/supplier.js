@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const user = require("../../methods/company");
+const user = require("../../methods/supplier");
 
 //@route    POST api/company/registerCompany
 //@desc     To generate Company credentials
 //@access   PUBLIC
-router.post("/registerCompany", async (req, res) => {
+router.post("/registerSupplier", async (req, res) => {
   console.log(req.body.orgName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyOrg = req.body.orgName;
+  const secretSupplierName = req.body.secretSupplierName;
+  const supplierOrg = req.body.orgName;
   const json = {};
   user
-    .registerCompany(secretCompanyName, companyOrg)
+    .registerSupplier(secretSupplierName, supplierOrg)
     .then(() => {
       json.code = 200;
       json.Message = "Company enrolled successfully";
@@ -31,21 +31,21 @@ router.post("/registerCompany", async (req, res) => {
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
   console.log(req.body.secretCompanyName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
-  const companyAddress = req.body.companyAddress;
-  const companyMobile = req.body.companyMobile;
-  const companySecret = req.body.companySecret;
-  const companyAmount = req.body.companyAmount;
+  const secretSupplierName = req.body.secretSupplierName;
+  const supplierName = req.body.supplierName;
+  const supplierAddress = req.body.supplierAddress;
+  const supplierMobile = req.body.supplierMobile;
+  const supplierSecret = req.body.supplierSecret;
+  const supplierAmount = req.body.supplierAmount;
   const json = {};
   user
-    .initCompany(
-      secretCompanyName,
-      companyName,
-      companyAddress,
-      companyMobile,
-      companySecret,
-      companyAmount
+    .initSupplier(
+      secretSupplierName,
+      supplierName,
+      supplierAddress,
+      supplierMobile,
+      supplierSecret,
+      supplierAmount
     )
     .then((result) => {
       res.status(200).send(result);
@@ -63,15 +63,16 @@ router.post("/signup", (req, res) => {
 //@access   PUBLIC
 router.post("/login", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
-  const companyPassword = req.body.companySecret;
+  const secretSupplierName = req.body.secretSupplierName;
+  const supplierName = req.body.supplierName;
+  const supplierMobile = req.body.supplierMobile;
+  const supplierPassword = req.body.supplierSecret;
   const json = {};
   user
-    .readCompanyByOwnerAndPassword(
-      secretCompanyName,
-      companyName,
-      companyPassword
+    .readSupplierByOwnerAndPassword(
+      secretSupplierName,
+      supplierName + supplierMobile,
+      supplierPassword
     )
     .then((result) => {
       res.status(200).send(result);
@@ -87,13 +88,15 @@ router.post("/login", (req, res) => {
 //@route    POST api/company/readCompany
 //@desc     To read company with name in hyperledger
 //@access   PUBLIC
-router.post("/readCompany", (req, res) => {
+router.post("/readSupplier", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
+  const secretSupplierName = req.body.secretSupplierName;
+  const supplierName = req.body.supplierName;
+  const supplierMobile = req.body.supplierMobile;
+
   const json = {};
   user
-    .readCompany(secretCompanyName, companyName)
+    .readCompany(secretSupplierName, supplierName + supplierMobile)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -110,11 +113,13 @@ router.post("/readCompany", (req, res) => {
 //@access   PUBLIC
 router.post("/readCompanyHistory", (req, res) => {
   console.log(req.body.secretUserName);
-  const secretCompanyName = req.body.secretCompanyName;
-  const companyName = req.body.companyName;
+  const secretSupplierName = req.body.secretSupplierName;
+  const supplierName = req.body.supplierName;
+  const supplierMobile = req.body.supplierMobile;
+
   const json = {};
   user
-    .readCompanyHistory(secretCompanyName, companyName)
+    .readSupplierHistory(secretSupplierName, supplierName + supplierMobile)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -125,6 +130,5 @@ router.post("/readCompanyHistory", (req, res) => {
       res.status(500).send(json);
     });
 });
-
 
 module.exports = router;

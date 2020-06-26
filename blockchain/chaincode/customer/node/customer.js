@@ -149,7 +149,7 @@ let Chaincode = class {
     let queryString = {};
     queryString.selector = {};
     queryString.selector.docType = "customer";
-    queryString.selector.name = owner;
+    queryString.selector.id = owner;
     queryString.selector.secret = password;
     let method = thisClass["getQueryResultForQueryString"];
     let queryResults = await method(
@@ -157,17 +157,17 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults; //shim.success(queryResults);
+    return queryResults[0]; //shim.success(queryResults);
   }
 
   async getHistoryForCustomer(stub, args, thisClass) {
     if (args.length < 1) {
       throw new Error("Incorrect number of arguments. Expecting 1");
     }
-    let customerName = args[0];
-    console.info("- start getHistoryForMarble: %s\n", customerName);
+    let customerID = args[0];
+    console.info("- start getHistoryForMarble: %s\n", customerID);
 
-    let resultsIterator = await stub.getHistoryForKey(customerName);
+    let resultsIterator = await stub.getHistoryForKey(customerID);
     let method = thisClass["getAllResults"];
     let results = await method(resultsIterator, true);
 
@@ -294,7 +294,7 @@ let Chaincode = class {
     let queryString = {};
     queryString.selector = {};
     queryString.selector.docType = "supplier";
-    queryString.selector.name = owner;
+    queryString.selector.id = owner;
     queryString.selector.secret = password;
     let method = thisClass["getQueryResultForQueryString"];
     let queryResults = await method(
@@ -302,17 +302,17 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults; //shim.success(queryResults);
+    return queryResults[0]; //shim.success(queryResults);
   }
 
   async getHistoryForSupplier(stub, args, thisClass) {
     if (args.length < 1) {
       throw new Error("Incorrect number of arguments. Expecting 1");
     }
-    let supplierName = args[0];
-    console.info("- start getHistoryForMarble: %s\n", supplierName);
+    let supplierID = args[0];
+    console.info("- start getHistoryForMarble: %s\n", supplierID);
 
-    let resultsIterator = await stub.getHistoryForKey(supplierName);
+    let resultsIterator = await stub.getHistoryForKey(supplierID);
     let method = thisClass["getAllResults"];
     let results = await method(resultsIterator, true);
 
@@ -438,7 +438,7 @@ let Chaincode = class {
     let queryString = {};
     queryString.selector = {};
     queryString.selector.docType = "farmer";
-    queryString.selector.name = owner;
+    queryString.selector.id = owner;
     queryString.selector.secret = password;
     let method = thisClass["getQueryResultForQueryString"];
     let queryResults = await method(
@@ -446,17 +446,17 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults; //shim.success(queryResults);
+    return queryResults[0]; //shim.success(queryResults);
   }
 
   async getHistoryForFarmer(stub, args, thisClass) {
     if (args.length < 1) {
       throw new Error("Incorrect number of arguments. Expecting 1");
     }
-    let farmerName = args[0];
-    console.info("- start getHistoryForMarble: %s\n", farmerName);
+    let farmerID = args[0];
+    console.info("- start getHistoryForMarble: %s\n", farmerID);
 
-    let resultsIterator = await stub.getHistoryForKey(farmerName);
+    let resultsIterator = await stub.getHistoryForKey(farmerID);
     let method = thisClass["getAllResults"];
     let results = await method(resultsIterator, true);
 

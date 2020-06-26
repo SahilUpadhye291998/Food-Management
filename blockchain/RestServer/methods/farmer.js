@@ -5,7 +5,7 @@ const {
 } = require("fabric-network");
 const path = require("path");
 
-const ccpPath = path.resolve(__dirname, "..", "..", "connection-org2.json");
+const ccpPath = path.resolve(__dirname, "..", "..", "connection-org3.json");
 
 async function registerFarmer(secretFarmerName, companyOrg) {
   try {
@@ -20,10 +20,10 @@ async function registerFarmer(secretFarmerName, companyOrg) {
       );
       return;
     }
-    const adminExists = await wallet.exists("adminOrg2");
+    const adminExists = await wallet.exists("adminOrg3");
     if (!adminExists) {
       console.log(
-        'An identity for the admin user "adminOrg2" does not exist in the wallet'
+        'An identity for the admin user "adminOrg3" does not exist in the wallet'
       );
       console.log("Run the enrollAdmin.js application before retrying");
       return;
@@ -32,7 +32,7 @@ async function registerFarmer(secretFarmerName, companyOrg) {
     const gateway = new Gateway();
     await gateway.connect(ccpPath, {
       wallet,
-      identity: "adminOrg2", //TODO: check if we can change this
+      identity: "adminOrg3", //TODO: check if we can change this
       discovery: { enabled: true, asLocalhost: true },
     });
     const ca = gateway.getClient().getCertificateAuthority();
@@ -74,8 +74,7 @@ async function initFarmer(
   companyName,
   companyAddress,
   companyMobile,
-  companySecret,
-  companyAmount
+  companySecret
 ) {
   try {
     const walletPath = path.join(process.cwd(), "wallet");
@@ -107,8 +106,7 @@ async function initFarmer(
       companyName,
       companyAddress,
       companyMobile,
-      companySecret,
-      companyAmount
+      companySecret
     );
 
     const json = {

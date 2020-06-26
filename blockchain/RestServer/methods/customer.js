@@ -149,6 +149,7 @@ async function readCustomerByOwnerAndPassword(
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = new FileSystemWallet(walletPath);
     console.log(walletPath);
+    console.log(userName);
 
     const userExists = await wallet.exists(secretCustomerName);
     if (!userExists) {
@@ -188,8 +189,7 @@ async function initCustomer(
   userAddress,
   userMobile,
   userSecret,
-  userAmount,
-  userPremiumAmount
+  userAmount
 ) {
   try {
     const walletPath = path.join(process.cwd(), "wallet");
@@ -222,8 +222,7 @@ async function initCustomer(
       userAddress,
       userMobile,
       userSecret,
-      userAmount,
-      userPremiumAmount
+      userAmount
     );
 
     const json = {
@@ -238,6 +237,7 @@ async function initCustomer(
       message: "UnSuccessfully in paying the premium",
     };
     console.log("Some error has occured please contact web Master");
+    return json;
   }
 }
 

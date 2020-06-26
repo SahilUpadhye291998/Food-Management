@@ -8,45 +8,48 @@ const admin = require("../../methods/enrollAdmin");
 router.post("/", async (req, res) => {
   console.info("Admin route called");
   const json = {};
-  admin
+  await admin
     .enrollCustomer()
     .then(() => {
       json.code = 200;
-      json.userMessage = "Customer Admin enrolled successfully";
+      json.customerMessage = "Customer Admin enrolled successfully";
+      console.log("customer is issued");
     })
     .catch((error) => {
       console.log(error);
       json.code = 500;
       json.userMessage = "Some error has occured";
+      return res.status(500).send(json);
     });
 
-  admin
+  await admin
     .enrollSupplier()
     .then(() => {
       json.code = 200;
-      json.companyMessage = "Supplier Admin enrolled successfully";
-      res.status(200).send(json);
+      json.supplierMessage = "Supplier Admin enrolled successfully";
+      console.log("Supplier is issued");
     })
     .catch((error) => {
       console.log(error);
       json.code = 500;
       json.companyMessage = "Some error has occured";
-      res.status(500).send(json);
+      return res.status(500).send(json);
     });
 
-  admin
+  await admin
     .enrollFarmer()
     .then(() => {
       json.code = 200;
-      json.companyMessage = "Farmer Admin enrolled successfully";
-      res.status(200).send(json);
+      json.farmerMessage = "Farmer Admin enrolled successfully";
+      console.log("Farmer is issued");
     })
     .catch((error) => {
       console.log(error);
       json.code = 500;
       json.companyMessage = "Some error has occured";
-      res.status(500).send(json);
+      return res.status(500).send(json);
     });
+  res.status(200).send(json);
 });
 
 module.exports = router;
