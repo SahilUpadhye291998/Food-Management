@@ -87,3 +87,11 @@ peer chaincode query -C mychannel -n mycc -c  '{"Args":["readSupplierCustomerDat
 echo ""
 peer chaincode query -C mychannel -n mycc -c  '{"Args":["readFarmerSupplierData","FarmerTest12345678"]}'
 echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["queryCustomerByOwnerAndPassword","xGod66612345678","A1!"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["queryCustomerByOwner","xGod666"]}'
+echo ""
+peer chaincode query -C mychannel -n mycc -c  '{"Args":["getHistoryForCustomer","xGod66612345678"]}'
+echo ""
+
+

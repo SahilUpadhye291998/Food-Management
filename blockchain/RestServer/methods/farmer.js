@@ -12,6 +12,7 @@ async function registerFarmer(secretFarmerName, companyOrg) {
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = new FileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
+    console.log(companyOrg);
 
     const userExists = await wallet.exists(secretFarmerName);
     if (userExists) {
@@ -46,6 +47,7 @@ async function registerFarmer(secretFarmerName, companyOrg) {
       },
       adminIdentity
     );
+    console.log("ok");
     const enrollment = await ca.enroll({
       enrollmentID: `${secretFarmerName}`,
       enrollmentSecret: secret,
@@ -193,7 +195,7 @@ async function readFarmer(secretFarmerName, companyName) {
     const contract = await network.getContract("mycc");
 
     const result = await contract.evaluateTransaction(
-      "queryFarmerByName",
+      "queryUserByFarmer",
       companyName
     );
     return JSON.parse(result.toString());
@@ -229,7 +231,7 @@ async function readFarmerHistory(secretFarmerName, companyName) {
     const contract = await network.getContract("mycc");
 
     const result = await contract.evaluateTransaction(
-      "getHistoryForUser",
+      "getHistoryForFarmer",
       companyName
     );
     return JSON.parse(result.toString());

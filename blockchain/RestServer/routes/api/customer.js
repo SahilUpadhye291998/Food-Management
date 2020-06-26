@@ -32,7 +32,7 @@ router.post("/registerUser", async (req, res) => {
 router.post("/login", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
   const userPassword = req.body.userPassword;
   const json = {};
@@ -59,10 +59,10 @@ router.post("/login", (req, res) => {
 router.post("/signup", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const userName = req.body.userName;
   const userAddress = req.body.userAddress;
   const userMobile = req.body.userMobile;
-  const userSecret = req.body.userPassword;
+  const userSecret = req.body.userSecret;
   const userAmount = req.body.userAmount;
   const json = {};
   user
@@ -91,11 +91,11 @@ router.post("/signup", (req, res) => {
 router.post("/getUser", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
   const json = {};
   user
-    .readCustomer(secretUserName, userName + userMobile)
+    .readCustomer(secretUserName, userName)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -113,7 +113,7 @@ router.post("/getUser", (req, res) => {
 router.post("/getCustomerSupplierData", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
   const json = {};
   user
@@ -134,8 +134,8 @@ router.post("/getCustomerSupplierData", (req, res) => {
 //@access   PUBLIC
 router.post("/getUserHistory", (req, res) => {
   console.log(req.body.secretUsername);
-  const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const secretUserName = req.body.secretUserName;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
   const json = {};
   user
@@ -158,15 +158,16 @@ router.post("/getUserHistory", (req, res) => {
 //@access   PUBLIC
 router.post("/addProductCustomerSupplier", (req, res) => {
   console.log(req.body.secretUsername);
-  const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const secretUserName = req.body.secretUserName;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
-  const supplierName = req.body.suppliername;
+  const supplierName = req.body.supplierName;
   const supplierMobile = req.body.supplierMobile;
   const productName = req.body.productName;
   const productQuantity = req.body.productQuantity;
   const productPrice = req.body.productPrice;
   const json = {};
+
   user
     .addProductCustomerSupplier(
       secretUserName,

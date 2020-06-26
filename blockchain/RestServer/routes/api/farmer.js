@@ -7,7 +7,6 @@ const user = require("../../methods/farmer");
 //@desc     To generate Company credentials
 //@access   PUBLIC
 router.post("/registerFarmer", async (req, res) => {
-  console.log(req.body.orgName);
   const secretFarmerName = req.body.secretFarmerName;
   const farmerOrg = req.body.orgName;
   const json = {};
@@ -88,7 +87,7 @@ router.post("/login", (req, res) => {
 //@route    POST api/company/readCompany
 //@desc     To read company with name in hyperledger
 //@access   PUBLIC
-router.post("/readCompany", (req, res) => {
+router.post("/readFarmer", (req, res) => {
   console.log(req.body.secretUserName);
   const secretFarmerName = req.body.secretFarmerName;
   const farmerName = req.body.farmerName;
@@ -113,8 +112,8 @@ router.post("/readCompany", (req, res) => {
 //@access   PUBLIC
 router.post("/getFarmerSupplierData", (req, res) => {
   console.log(req.body.secretUsername);
-  const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const secretUserName = req.body.secretUserName;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
   const json = {};
   user
@@ -158,10 +157,10 @@ router.post("/readCompanyHistory", (req, res) => {
 //@access   PUBLIC
 router.post("/addProductFarmerSupplier", (req, res) => {
   console.log(req.body.secretUsername);
-  const secretUserName = req.body.secretUsername;
-  const farmerName = req.body.farmername;
+  const secretUserName = req.body.secretUserName;
+  const farmerName = req.body.farmerName;
   const farmerMobile = req.body.farmerMobile;
-  const supplierName = req.body.suppliername;
+  const supplierName = req.body.supplierName;
   const supplierMobile = req.body.supplierMobile;
   const productName = req.body.productName;
   const productQuantity = req.body.productQuantity;

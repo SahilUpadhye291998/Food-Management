@@ -278,6 +278,7 @@ async function initCustomer(
 }
 
 async function addProductCustomerSupplier(
+  secretUserName,
   customerID,
   supplierID,
   productName,
@@ -288,8 +289,10 @@ async function addProductCustomerSupplier(
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = new FileSystemWallet(walletPath);
     console.log(walletPath);
+    console.log(customerID);
+    console.log(supplierID);
 
-    const userExists = await wallet.exists(secretCustomerName);
+    const userExists = await wallet.exists(secretUserName);
     if (!userExists) {
       console.log("Please check this user does not exists");
       return;
@@ -298,7 +301,7 @@ async function addProductCustomerSupplier(
     const gateway = new Gateway();
     await gateway.connect(ccpPath, {
       wallet,
-      identity: secretCustomerName,
+      identity: secretUserName,
       discovery: {
         enabled: true,
         asLocalhost: true,
@@ -319,7 +322,7 @@ async function addProductCustomerSupplier(
     );
 
     const json = {
-      message: "Successfully Signed Up",
+      message: "Added Successfully",
     };
 
     await gateway.disconnect();

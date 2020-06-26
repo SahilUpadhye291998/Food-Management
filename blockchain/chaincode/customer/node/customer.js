@@ -157,7 +157,7 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults[0]; //shim.success(queryResults);
+    return queryResults; //shim.success(queryResults);
   }
 
   async getHistoryForCustomer(stub, args, thisClass) {
@@ -302,7 +302,7 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults[0]; //shim.success(queryResults);
+    return queryResults; //shim.success(queryResults);
   }
 
   async getHistoryForSupplier(stub, args, thisClass) {
@@ -446,7 +446,7 @@ let Chaincode = class {
       JSON.stringify(queryString),
       thisClass
     );
-    return queryResults[0]; //shim.success(queryResults);
+    return queryResults; //shim.success(queryResults);
   }
 
   async getHistoryForFarmer(stub, args, thisClass) {

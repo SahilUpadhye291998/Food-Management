@@ -30,7 +30,6 @@ router.post("/registerSupplier", async (req, res) => {
 //@desc     To signup Company and initialize in Blockchain
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
-  console.log(req.body.secretCompanyName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
   const supplierAddress = req.body.supplierAddress;
@@ -96,7 +95,7 @@ router.post("/readSupplier", (req, res) => {
 
   const json = {};
   user
-    .readCompany(secretSupplierName, supplierName + supplierMobile)
+    .readSupplier(secretSupplierName, supplierName)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -111,7 +110,7 @@ router.post("/readSupplier", (req, res) => {
 //@route    POST api/company/readCompanyHistory
 //@desc     Read the history of the company with transaction history
 //@access   PUBLIC
-router.post("/readCompanyHistory", (req, res) => {
+router.post("/readSupplierHistory", (req, res) => {
   console.log(req.body.secretUserName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
@@ -181,9 +180,9 @@ router.post("/readSupplierFarmerData", (req, res) => {
 router.post("/addProductCustomerSupplier", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
-  const userName = req.body.username;
+  const userName = req.body.userName;
   const userMobile = req.body.userMobile;
-  const supplierName = req.body.suppliername;
+  const supplierName = req.body.supplierName;
   const supplierMobile = req.body.supplierMobile;
   const productName = req.body.productName;
   const productQuantity = req.body.productQuantity;
