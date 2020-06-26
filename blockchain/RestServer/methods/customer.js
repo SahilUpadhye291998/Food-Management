@@ -104,6 +104,42 @@ async function readCustomer(secretCustomerName, userName) {
   }
 }
 
+async function readCustomerSupplierData(secretCustomerName, userName) {
+  try {
+    const walletPath = path.join(process.cwd(), "wallet");
+    const wallet = new FileSystemWallet(walletPath);
+    console.log(walletPath);
+
+    const userExists = await wallet.exists(secretCustomerName);
+    if (!userExists) {
+      console.log("Please check this user does not exists");
+      return;
+    }
+
+    const gateway = new Gateway();
+    await gateway.connect(ccpPath, {
+      wallet,
+      identity: secretCustomerName,
+      discovery: {
+        enabled: true,
+        asLocalhost: true,
+      },
+    });
+
+    const network = await gateway.getNetwork("mychannel");
+
+    const contract = await network.getContract("mycc");
+
+    const result = await contract.evaluateTransaction(
+      "readCustomerSupplierData",
+      userName
+    );
+    return JSON.parse(result.toString());
+  } catch (error) {
+    console.log("Some error has occured please contact web Master");
+  }
+}
+
 async function readCustomerHistory(secretCustomerName, userName) {
   try {
     const walletPath = path.join(process.cwd(), "wallet");
@@ -241,10 +277,69 @@ async function initCustomer(
   }
 }
 
+async function addProductCustomerSupplier(
+  customerID,
+  supplierID,
+  productName,
+  productQuantity,
+  productPrice
+) {
+  try {
+    const walletPath = path.join(process.cwd(), "wallet");
+    const wallet = new FileSystemWallet(walletPath);
+    console.log(walletPath);
+
+    const userExists = await wallet.exists(secretCustomerName);
+    if (!userExists) {
+      console.log("Please check this user does not exists");
+      return;
+    }
+
+    const gateway = new Gateway();
+    await gateway.connect(ccpPath, {
+      wallet,
+      identity: secretCustomerName,
+      discovery: {
+        enabled: true,
+        asLocalhost: true,
+      },
+    });
+
+    const network = await gateway.getNetwork("mychannel");
+
+    const contract = await network.getContract("mycc");
+
+    await contract.submitTransaction(
+      "addProductCustomerSupplier",
+      customerID,
+      supplierID,
+      productName,
+      productQuantity,
+      productPrice
+    );
+
+    const json = {
+      message: "Successfully Signed Up",
+    };
+
+    await gateway.disconnect();
+    return json;
+  } catch (error) {
+    console.error(error);
+    const json = {
+      message: "UnSuccessfully in paying the premium",
+    };
+    console.log("Some error has occured please contact web Master");
+    return json;
+  }
+}
+
 module.exports = {
   registerCustomer,
   readCustomer,
   readCustomerHistory,
+  readCustomerSupplierData,
   readCustomerByOwnerAndPassword,
   initCustomer,
+  addProductCustomerSupplier,
 };

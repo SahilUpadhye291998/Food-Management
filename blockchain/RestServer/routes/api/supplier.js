@@ -131,4 +131,120 @@ router.post("/readCompanyHistory", (req, res) => {
     });
 });
 
+//@route    POST api/user/getUser
+//@desc     To read the user from the database
+//@access   PUBLIC
+router.post("/readSupplierCustomerData", (req, res) => {
+  console.log(req.body.secretUsername);
+  const secretUserName = req.body.secretUsername;
+  const userName = req.body.username;
+  const userMobile = req.body.userMobile;
+  const json = {};
+  user
+    .readSupplierCustomerData(secretUserName, userName + userMobile)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
+//@route    POST api/user/getUser
+//@desc     To read the user from the database
+//@access   PUBLIC
+router.post("/readSupplierFarmerData", (req, res) => {
+  console.log(req.body.secretUsername);
+  const secretUserName = req.body.secretUsername;
+  const userName = req.body.username;
+  const userMobile = req.body.userMobile;
+  const json = {};
+  user
+    .readSupplierFarmerData(secretUserName, userName + userMobile)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
+//@route    POST api/user/addProductCustomerSupplier
+//@desc     Transaction history of the user
+//@access   PUBLIC
+router.post("/addProductCustomerSupplier", (req, res) => {
+  console.log(req.body.secretUsername);
+  const secretUserName = req.body.secretUsername;
+  const userName = req.body.username;
+  const userMobile = req.body.userMobile;
+  const supplierName = req.body.suppliername;
+  const supplierMobile = req.body.supplierMobile;
+  const productName = req.body.productName;
+  const productQuantity = req.body.productQuantity;
+  const productPrice = req.body.productPrice;
+  const json = {};
+  user
+    .addProductCustomerSupplier(
+      secretUserName,
+      userName + userMobile,
+      supplierName + supplierMobile,
+      productName,
+      productQuantity,
+      productPrice
+    )
+    .then((result) => {
+      json.code = 200;
+      json.data = result;
+      res.status(200).send(json);
+    })
+    .catch((error) => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
+//@route    POST api/user/addProductCustomerSupplier
+//@desc     Transaction history of the user
+//@access   PUBLIC
+router.post("/addProductFarmerSupplier", (req, res) => {
+  console.log(req.body.secretUsername);
+  const secretUserName = req.body.secretUsername;
+  const farmerName = req.body.farmername;
+  const farmerMobile = req.body.farmerMobile;
+  const supplierName = req.body.suppliername;
+  const supplierMobile = req.body.supplierMobile;
+  const productName = req.body.productName;
+  const productQuantity = req.body.productQuantity;
+  const productPrice = req.body.productPrice;
+  const json = {};
+  user
+    .addProductFarmerSupplier(
+      secretUserName,
+      farmerName + farmerMobile,
+      supplierName + supplierMobile,
+      productName,
+      productQuantity,
+      productPrice
+    )
+    .then((result) => {
+      json.code = 200;
+      json.data = result;
+      res.status(200).send(json);
+    })
+    .catch((error) => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
 module.exports = router;
