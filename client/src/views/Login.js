@@ -38,6 +38,7 @@ export default class Login extends Component {
       actionType: Constants.USER,
       payload: this.state.user,
     });
+    this.props.history.push('/');
   };
 
   render() {

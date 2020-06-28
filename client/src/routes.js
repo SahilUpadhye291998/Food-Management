@@ -30,39 +30,9 @@ export default [
   {
     path: '/blog-overview',
     layout: DefaultLayout,
+    exact: true,
     component: BlogOverview,
   },
-  {
-    path: '/user-profile-lite',
-    layout: DefaultLayout,
-    component: UserProfileLite,
-  },
-  {
-    path: '/add-new-post',
-    layout: DefaultLayout,
-    component: AddNewPost,
-  },
-  {
-    path: '/errors',
-    layout: DefaultLayout,
-    component: Errors,
-  },
-  {
-    path: '/components-overview',
-    layout: DefaultLayout,
-    component: ComponentsOverview,
-  },
-  {
-    path: '/tables',
-    layout: DefaultLayout,
-    component: Tables,
-  },
-  {
-    path: '/blog-posts',
-    layout: DefaultLayout,
-    component: BlogPosts,
-  },
-
   {
     path: '/login',
     layout: CustomLayout,
