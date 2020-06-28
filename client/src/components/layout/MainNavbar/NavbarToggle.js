@@ -20,7 +20,6 @@ class NavbarToggle extends React.Component {
             <nav className="nav">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <button
-                    href="#"
                     onClick={this.handleClick}
                     className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-inline d-lg-none text-center"
                 >
