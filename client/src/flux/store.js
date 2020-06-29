@@ -10,7 +10,7 @@ import getSidebarNavSupplier from '../data/sidebar-nav-supplier';
 
 let _store = {
   menuVisible: false,
-  toLoad: 'admin',
+  toLoad: 'admin-default',
   navItemsAdmin: getSidebarNavAdmin(),
   navItemsCustomer: getSidebarNavCustomer(),
   navItemsFarmer: getSidebarNavFarmer(),

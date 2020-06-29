@@ -5,33 +5,27 @@ import {Redirect} from 'react-router-dom';
 import {DefaultLayout, CustomLayout} from './layouts';
 
 // Route Views
-import BlogOverview from './views/BlogOverview';
-import AddNewPost from './views/AddNewPost';
-import Errors from './views/Errors';
-import ComponentsOverview from './views/ComponentsOverview';
-import Tables from './views/Tables';
-import BlogPosts from './views/BlogPosts';
-
 import Login from './views/Login';
 import Register from './views/Register';
 import History from './views/History';
-import ViewTransaction from './views/ViewTransaction';
+import TransactionHistory from './views/TransactionHistory';
 import UserProfileLite from './views/UserProfileLite';
 import AuthorizeUser from './views/admin/AuthorizeUser';
 import BaseTransaction from './views/transactions/BaseTransaction';
+import Dashboard from './views/Dashboard';
 
 export default [
   {
     path: '/',
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/blog-overview" />,
+    component: () => <Redirect to="/dashboard" />,
   },
   {
-    path: '/blog-overview',
+    path: '/dashboard',
     layout: DefaultLayout,
     exact: true,
-    component: BlogOverview,
+    component: Dashboard,
   },
   {
     path: '/login',
@@ -55,7 +49,7 @@ export default [
     path: '/transaction-history',
     layout: DefaultLayout,
     exact: true,
-    component: ViewTransaction,
+    component: TransactionHistory,
   },
   {
     path: '/admin/authUser',

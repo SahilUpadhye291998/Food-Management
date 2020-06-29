@@ -3,6 +3,7 @@ import {Nav} from 'shards-react';
 
 import SidebarNavItem from './SidebarNavItem';
 import {Store} from '../../../flux';
+import {Redirect} from 'react-router-dom';
 
 class SidebarNavItems extends React.Component {
   constructor(props) {
@@ -32,6 +33,10 @@ class SidebarNavItems extends React.Component {
     this.setState({
       ...this.state,
       navItems: Store.getSidebarItems(),
+      navItemsAdmin: Store.getSidebarAdmin(),
+      navItemsSupplier: Store.getSidebarSuppler(),
+      navItemsCustomer: Store.getSidebarNavCustomer(),
+      navItemsFarmer: Store.getSidebarNavFarmer(),
     });
   }
 
@@ -44,7 +49,9 @@ class SidebarNavItems extends React.Component {
       navItemsCustomer: itemsCustomer,
       user: user,
     } = this.state;
-    if (user === 'admin') {
+    if (user === 'admin-default') {
+      return <Redirect to="/login" />;
+    } else if (user === 'admin') {
       return (
         <div className="nav-wrapper">
           <Nav className="nav--no-borders flex-column">

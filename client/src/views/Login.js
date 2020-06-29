@@ -21,7 +21,7 @@ export default class Login extends Component {
     console.log('OK');
     Dispatcher.dispatch({
       actionType: Constants.USER,
-      payload: this.state.user,
+      payload: 'admin-default',
     });
   }
 
