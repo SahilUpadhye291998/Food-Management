@@ -69,6 +69,10 @@ function replacePrivateKey(){
     PRIV_KEY=$(ls *_sk)
     cd "$CURRENT_DIR"
     sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+    cd crypto-config/peerOrganizations/org3.example.com/ca/
+    PRIV_KEY=$(ls *_sk)
+    cd "$CURRENT_DIR"
+    sed $OPTS "s/CA3_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
     # If MacOSX, remove the temporary backup of the docker-compose file
     if [ "$ARCH" == "Darwin" ]; then
         rm docker-compose-e2e.yamlt
@@ -90,7 +94,7 @@ function generateChannelArtifacts(){
   echo "CONSENSUS_TYPE="$CONSENSUS_TYPE
   set -x
   if [ "$CONSENSUS_TYPE" == "solo" ]; then
-    configtxgen -profile TwoOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
+    configtxgen -profile ThreeOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
   else
     set +x
     echo "unrecognized CONSESUS_TYPE='$CONSENSUS_TYPE'. exiting"
@@ -107,7 +111,7 @@ function generateChannelArtifacts(){
   echo "### Generating channel configuration transaction 'channel.tx' ###"
   echo "#################################################################"
   set -x
-  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+  configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -120,7 +124,7 @@ function generateChannelArtifacts(){
   echo "#######    Generating anchor peer update for Org1MSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -133,11 +137,25 @@ function generateChannelArtifacts(){
   echo "#######    Generating anchor peer update for Org2MSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+  configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org2MSP..."
+    exit 1
+  fi
+
+  echo
+  echo
+  echo "#################################################################"
+  echo "#######    Generating anchor peer update for Org3MSP   ##########"
+  echo "#################################################################"
+  set -x
+  configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org3MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org3MSP
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo "Failed to generate anchor peer update for Org3MSP..."
     exit 1
   fi
   echo
@@ -152,10 +170,31 @@ function networkUp(){
     if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
       export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
       export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
+      export BYFN_CA3_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org3.example.com/ca && ls *_sk)
       docker-compose -f docker-compose-cli.yaml -f docker-compose-couch.yaml -f docker-compose-e2e.yaml up -d
       docker ps
-      docker exec cli /bin/sh -c "scripts/networkUp_insurance.sh"
-      docker exec cli /bin/sh -c "scripts/testChaincode_insurance.sh"
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "                         Installing chaincode                      "
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_customer.sh"
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_supplier.sh"
+      docker exec cli /bin/sh -c "scripts/networkUp_food_management_farmer.sh"
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "                           Testing chaincode                       "
+      echo "==================================================================="
+      echo "==================================================================="
+      echo "==================================================================="
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_customer.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_supplier.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement_farmer.sh"
+      docker exec cli /bin/sh -c "scripts/testChainCode_foodManagement.sh"
+
     else
       docker-compose -f docker-compose-cli.yaml -f docker-compose-couch.yaml up -d
       docker ps
@@ -181,7 +220,7 @@ function networkDown() {
 CONSENSUS_TYPE="solo"
 CLI_TIMEOUT=100
 CLI_DELAY=30
-SYS_CHANNEL="insurance-sys-channel"
+SYS_CHANNEL="food-sys-channel"
 CERTIFICATE_AUTHORITIES=true
 CHANNEL_NAME="mychannel"
 LANGUAGE=javascript
@@ -193,7 +232,8 @@ IF_COUCHDB=couchdb
 COMPOSE_FILE_CA=docker-compose-ca.yaml
 IMAGETAG="latest"
 export $IMAGETAG="latest"
-
+export IMAGE_TAG=latest
+export COMPOSE_PROJECT_NAME=blockchain
 MODE=$1
 shift
 if [ "$MODE" == "generate" ]; then
