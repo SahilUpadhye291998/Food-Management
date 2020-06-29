@@ -5,13 +5,7 @@ import {Redirect} from 'react-router-dom';
 import {DefaultLayout, CustomLayout} from './layouts';
 
 // Route Views
-import BlogOverview from './views/BlogOverview';
-import AddNewPost from './views/AddNewPost';
-import Errors from './views/Errors';
-import ComponentsOverview from './views/ComponentsOverview';
-import Tables from './views/Tables';
-import BlogPosts from './views/BlogPosts';
-
+import Dashboard from './views/Dashboard';
 import Login from './views/Login';
 import Register from './views/Register';
 import History from './views/History';
@@ -25,13 +19,13 @@ export default [
     path: '/',
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/blog-overview" />,
+    component: () => <Redirect to="/dashboard" />,
   },
   {
-    path: '/blog-overview',
+    path: '/dashboard',
     layout: DefaultLayout,
     exact: true,
-    component: BlogOverview,
+    component: Dashboard,
   },
   {
     path: '/login',
