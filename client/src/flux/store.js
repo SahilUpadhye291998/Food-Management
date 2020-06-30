@@ -11,6 +11,9 @@ import getSidebarNavSupplier from '../data/sidebar-nav-supplier';
 let _store = {
   menuVisible: false,
   toLoad: 'admin-default',
+  userSecret: '',
+  userName: '',
+  userMobile: '',
   navItemsAdmin: getSidebarNavAdmin(),
   navItemsCustomer: getSidebarNavCustomer(),
   navItemsFarmer: getSidebarNavFarmer(),
@@ -35,6 +38,12 @@ class Store extends EventEmitter {
         break;
       case Constants.USER:
         _store.toLoad = payload;
+        break;
+      case Constants.STORE:
+        _store.userSecret = payload.secretUsername;
+        _store.userName = payload.userName;
+        _store.userMobile = payload.userMobile;
+        console.log(_store);
         break;
       default:
     }
@@ -71,6 +80,15 @@ class Store extends EventEmitter {
 
   getToLoad() {
     return _store.toLoad;
+  }
+  getUserSecret() {
+    return _store.userSecret;
+  }
+  getUserName() {
+    return _store.userName;
+  }
+  getUserMobile() {
+    return _store.userMobile;
   }
 
   addChangeListener(callback) {

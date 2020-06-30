@@ -5,8 +5,7 @@ let User = mongoose.Schema({
     type: String,
     required: true,
   },
-  uniqueIdentifier: {
-    // something like rashan card
+  mobileNum: {
     type: String,
     required: true,
   },
@@ -27,10 +26,6 @@ let User = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  isAuthorized: {
-    type: String,
-    required: true,
   },
 });
 

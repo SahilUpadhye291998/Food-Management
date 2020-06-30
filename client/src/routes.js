@@ -9,7 +9,8 @@ import Dashboard from './views/Dashboard';
 import Login from './views/Login';
 import Register from './views/Register';
 import History from './views/History';
-import ViewTransaction from './views/ViewTransaction';
+import TransactionHistory from './views/TransactionHistory';
+import TransactionHistorySupplier from './views/TransactionHistorySupplier';
 import UserProfileLite from './views/UserProfileLite';
 import AuthorizeUser from './views/admin/AuthorizeUser';
 import BaseTransaction from './views/transactions/BaseTransaction';
@@ -49,7 +50,13 @@ export default [
     path: '/transaction-history',
     layout: DefaultLayout,
     exact: true,
-    component: ViewTransaction,
+    component: TransactionHistory,
+  },
+  {
+    path: '/transaction-history-supplier',
+    layout: DefaultLayout,
+    exact: true,
+    component: TransactionHistorySupplier,
   },
   {
     path: '/admin/authUser',

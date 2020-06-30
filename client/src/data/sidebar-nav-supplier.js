@@ -14,7 +14,7 @@ export default function() {
     {
       title: 'View Transaction History',
       htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: '/transaction-history',
+      to: '/transaction-history-supplier',
     },
     {
       title: 'View History',

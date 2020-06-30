@@ -20,7 +20,16 @@ export default class CustomerSupplierTransaction extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      userSecret: '',
+      customerName: '',
+      customerPhone: '',
+      supplierName: '',
+      supplierPhone: '',
+      productName: '',
+      price: '',
+      quantity: '',
+    };
   }
 
   handleInput = event => {
@@ -33,6 +42,30 @@ export default class CustomerSupplierTransaction extends Component {
 
   onSubmit = event => {
     event.preventDefault();
+    const transaction = {
+      secretUserName: this.state.userSecret,
+      userName: this.state.customerName,
+      userMobile: this.state.customerPhone,
+      supplierName: this.state.supplierName,
+      supplierMobile: this.state.supplierPhone,
+      productName: this.state.productName,
+      productQuantity: this.state.quantity,
+      productPrice: this.state.price,
+    };
+
+    axios
+      .post(
+        'http://localhost:5000/api/customer/addProductCustomerSupplier',
+        transaction,
+      )
+      .then(response => response.data)
+      .then(result => {
+        if (result.hasOwnProperty('data')) {
+          alert('Product Purchased successfully');
+          console.log(result);
+        }
+      })
+      .catch(err => console.error(err));
     alert('Update API will be called from here');
   };
 
@@ -44,14 +77,14 @@ export default class CustomerSupplierTransaction extends Component {
             <PageTitle
               title="Transaction Customer-Supplier"
               subtitle="Transaction"
-              md="9"
+              md="10"
               className="ml-sm-auto mr-sm-auto"
             />
           </Col>
         </Row>
 
         <Row>
-          <Col lg="6">
+          <Col lg="7">
             <Card small className="mb-4 pt-3">
               <CardHeader className="border-bottom text-center">
                 <div className="mb-3 mx-auto">
@@ -67,27 +100,31 @@ export default class CustomerSupplierTransaction extends Component {
                 <h4 className="mb-0">{this.state.id}</h4>
                 <ListGroup flush>
                   <ListGroupItem className="p-2">
-                    <div class="form-group row">
-                      <label className="col-sm-2 col-form-label">Name</label>
+                    <div className="form-group row">
+                      <label className="col-sm-2 col-form-label">
+                        User Secret
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="name"
+                          name="userSecret"
+                          value={this.state.userSecret}
                           onChange={this.handleInput}
                           className="form-control"
                         />
                       </div>
                     </div>
-                 </ListGroupItem>
+                  </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label">
-                        Email Address
+                        User Name
                       </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="emailAddress"
+                          name="customerName"
+                          value={this.state.customerName}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -102,7 +139,8 @@ export default class CustomerSupplierTransaction extends Component {
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="phoneNumber"
+                          name="customerPhone"
+                          value={this.state.customerPhone}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -111,11 +149,14 @@ export default class CustomerSupplierTransaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Suppler Name
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="supplierName"
+                          value={this.state.supplierName}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -124,11 +165,14 @@ export default class CustomerSupplierTransaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Supplier Mobile
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="supplierPhone"
+                          value={this.state.supplierPhone}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -137,11 +181,44 @@ export default class CustomerSupplierTransaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Product Name
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="productName"
+                          value={this.state.productName}
+                          onChange={this.handleInput}
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+                  </ListGroupItem>
+                  <ListGroupItem className="p-2">
+                    <div className="form-group row">
+                      <label className=" col-sm-2 col-form-label">Price</label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          name="price"
+                          value={this.state.price}
+                          onChange={this.handleInput}
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+                  </ListGroupItem>
+                  <ListGroupItem className="p-2">
+                    <div className="form-group row">
+                      <label className=" col-sm-2 col-form-label">
+                        Quantity
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          name="quantity"
+                          value={this.state.quantity}
                           onChange={this.handleInput}
                           className="form-control"
                         />

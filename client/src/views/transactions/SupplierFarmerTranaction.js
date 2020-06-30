@@ -20,7 +20,16 @@ export default class SupplierFarmerTranaction extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      userSecret: '',
+      farmerName: '',
+      farmerPhone: '',
+      supplierName: '',
+      supplierPhone: '',
+      productName: '',
+      price: '',
+      quantity: '',
+    };
   }
 
   handleInput = event => {
@@ -33,6 +42,31 @@ export default class SupplierFarmerTranaction extends Component {
 
   onSubmit = event => {
     event.preventDefault();
+    const transaction = {
+      secretUserName: this.state.userSecret,
+      farmerName: this.state.farmerName,
+      farmerMobile: this.state.farmerPhone,
+      supplierName: this.state.supplierName,
+      supplierMobile: this.state.supplierPhone,
+      productName: this.state.productName,
+      productQuantity: this.state.quantity,
+      productPrice: this.state.price,
+    };
+    console.log(transaction);
+
+    axios
+      .post(
+        'http://localhost:5000/api/supplier/addProductFarmerSupplier',
+        transaction,
+      )
+      .then(response => response.data)
+      .then(result => {
+        if (result.hasOwnProperty('data')) {
+          alert('Product Purchased successfully');
+          console.log(result);
+        }
+      })
+      .catch(err => console.error(err));
     alert('Update API will be called from here');
   };
 
@@ -42,16 +76,16 @@ export default class SupplierFarmerTranaction extends Component {
         <Row noGutters className="page-header py-4">
           <Col className="col-6">
             <PageTitle
-              title="Transaction Supplier-Farmer"
+              title="Transaction Farmer-Supplier"
               subtitle="Transaction"
-              md="9"
+              md="10"
               className="ml-sm-auto mr-sm-auto"
             />
           </Col>
         </Row>
 
         <Row>
-          <Col lg="6">
+          <Col lg="7">
             <Card small className="mb-4 pt-3">
               <CardHeader className="border-bottom text-center">
                 <div className="mb-3 mx-auto">
@@ -67,27 +101,31 @@ export default class SupplierFarmerTranaction extends Component {
                 <h4 className="mb-0">{this.state.id}</h4>
                 <ListGroup flush>
                   <ListGroupItem className="p-2">
-                    <div class="form-group row">
-                      <label className="col-sm-2 col-form-label">Name</label>
+                    <div className="form-group row">
+                      <label className="col-sm-2 col-form-label">
+                        User Secret
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="name"
+                          name="userSecret"
+                          value={this.state.userSecret}
                           onChange={this.handleInput}
                           className="form-control"
                         />
                       </div>
                     </div>
-                 </ListGroupItem>
+                  </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label">
-                        Email Address
+                        Supplier Name
                       </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="emailAddress"
+                          name="supplierName"
+                          value={this.state.supplierName}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -97,12 +135,13 @@ export default class SupplierFarmerTranaction extends Component {
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
                       <label className=" col-sm-2 col-form-label">
-                        Phone num
+                        Supplier Num
                       </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="phoneNumber"
+                          name="supplierPhone"
+                          value={this.state.supplierPhone}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -111,11 +150,14 @@ export default class SupplierFarmerTranaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Farmer Name
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="farmerName"
+                          value={this.state.farmerName}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -124,11 +166,14 @@ export default class SupplierFarmerTranaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Farmer Mobile
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="farmerPhone"
+                          value={this.state.farmerPhone}
                           onChange={this.handleInput}
                           className="form-control"
                         />
@@ -137,11 +182,44 @@ export default class SupplierFarmerTranaction extends Component {
                   </ListGroupItem>
                   <ListGroupItem className="p-2">
                     <div className="form-group row">
-                      <label className=" col-sm-2 col-form-label">Age</label>
+                      <label className=" col-sm-2 col-form-label">
+                        Product Name
+                      </label>
                       <div className="col-sm-10">
                         <input
                           type="text"
-                          name="position"
+                          name="productName"
+                          value={this.state.productName}
+                          onChange={this.handleInput}
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+                  </ListGroupItem>
+                  <ListGroupItem className="p-2">
+                    <div className="form-group row">
+                      <label className=" col-sm-2 col-form-label">Price</label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          name="price"
+                          value={this.state.price}
+                          onChange={this.handleInput}
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+                  </ListGroupItem>
+                  <ListGroupItem className="p-2">
+                    <div className="form-group row">
+                      <label className=" col-sm-2 col-form-label">
+                        Quantity
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          name="quantity"
+                          value={this.state.quantity}
                           onChange={this.handleInput}
                           className="form-control"
                         />
