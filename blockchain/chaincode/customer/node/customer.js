@@ -81,7 +81,7 @@ let Chaincode = class {
     let indexName = `secret~id`;
     let secretNameIndexKey = await stub.createCompositeKey(indexName, [
       customer.secret,
-      customer.id,
+      customer.id
     ]);
     console.log(secretNameIndexKey);
 
@@ -224,7 +224,7 @@ let Chaincode = class {
     let indexName = `secret~id`;
     let secretNameIndexKey = await stub.createCompositeKey(indexName, [
       supplier.secret,
-      supplier.id,
+      supplier.id
     ]);
     console.log(secretNameIndexKey);
 
@@ -368,7 +368,7 @@ let Chaincode = class {
     let indexName = `secret~name`;
     let secretNameIndexKey = await stub.createCompositeKey(indexName, [
       farmer.secret,
-      farmer.id,
+      farmer.id
     ]);
     console.log(secretNameIndexKey);
 
@@ -478,7 +478,7 @@ let Chaincode = class {
       customer = JSON.parse(customerAsBytes.toString());
     } catch (error) {
       let jsonError = {};
-      jsonError.Error = `Unable to decode json of ${argsName}`;
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
 
@@ -491,7 +491,7 @@ let Chaincode = class {
       supplier = JSON.parse(supplierAsBytes.toString());
     } catch (error) {
       let jsonError = {};
-      jsonError.Error = `Unable to decode json of ${argsName}`;
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
 
@@ -500,13 +500,16 @@ let Chaincode = class {
       supplierID: supplierID,
       productName: args[2],
       productQuantity: args[3],
-      productPrice: args[4],
+      productPrice: args[4]
     };
 
     try {
       customer.customer_supplier.push(product);
       supplier.supplier_customer.push(product);
       const price = args[3] * args[4];
+      if (price > customer.amount) {
+        throw new Error(`Insufficient Balance`);
+      }
       customer.amount -= price;
       supplier.amount += price;
       console.log("==============================================");
@@ -535,7 +538,7 @@ let Chaincode = class {
       farmer = JSON.parse(farmerAsBytes.toString());
     } catch (error) {
       let jsonError = {};
-      jsonError.Error = `Unable to decode json of ${argsName}`;
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
 
@@ -548,7 +551,7 @@ let Chaincode = class {
       supplier = JSON.parse(supplierAsBytes.toString());
     } catch (error) {
       let jsonError = {};
-      jsonError.Error = `Unable to decode json of ${argsName}`;
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
 
@@ -557,13 +560,16 @@ let Chaincode = class {
       supplierID: supplierID,
       productName: args[2],
       productQuantity: args[3],
-      productPrice: args[4],
+      productPrice: args[4]
     };
 
     try {
       farmer.farmer_supplier.push(product);
       supplier.supplier_farmer.push(product);
       const price = args[3] * args[4];
+      if (price > supplier.amount) {
+        throw new Error(`Insufficient Balance`);
+      }
       farmer.amount += price;
       supplier.amount -= price;
       console.log("==============================================");
@@ -575,6 +581,90 @@ let Chaincode = class {
 
     await stub.putState(farmerID, Buffer.from(JSON.stringify(farmer)));
     await stub.putState(supplierID, Buffer.from(JSON.stringify(supplier)));
+  }
+
+  async addSupplierAmount(stub, args, thisClass) {
+    if (args.length < 2) {
+      throw new Error("Incorrect number of arguments");
+    }
+    let supplierID = args[0];
+    let supplierAsBytes = await stub.getState(supplierID);
+    if (!supplierAsBytes.toString()) {
+      throw new Error(`farmer is not found`);
+    }
+    let supplier = {};
+    try {
+      supplier = JSON.parse(supplierAsBytes.toString());
+    } catch (error) {
+      let jsonError = {};
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
+      throw new Error(JSON.stringify(jsonError));
+    }
+
+    try {
+      const amount = parseInt(args[1]);
+      supplier.amount += amount;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+
+    await stub.putState(supplierID, Buffer.from(JSON.stringify(supplier)));
+  }
+
+  async addCustomerAmount(stub, args, thisClass) {
+    if (args.length < 2) {
+      throw new Error("Incorrect number of arguments");
+    }
+    let customerID = args[0];
+    let customerAsBytes = await stub.getState(customerID);
+    if (!customerAsBytes.toString()) {
+      throw new Error(`Customer is not found`);
+    }
+    let customer = {};
+    try {
+      customer = JSON.parse(customerAsBytes.toString());
+    } catch (error) {
+      let jsonError = {};
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
+      throw new Error(JSON.stringify(jsonError));
+    }
+
+    try {
+      const amount = parseInt(args[1]);
+      customer.amount += amount;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+
+    await stub.putState(customerID, Buffer.from(JSON.stringify(customer)));
+  }
+
+  async addFarmerAmount(stub, args, thisClass) {
+    if (args.length < 2) {
+      throw new Error("Incorrect number of arguments");
+    }
+    let farmerID = args[0];
+    let farmerAsBytes = await stub.getState(farmerID);
+    if (!farmerAsBytes.toString()) {
+      throw new Error(`farmer is not found`);
+    }
+    let farmer = {};
+    try {
+      farmer = JSON.parse(farmerAsBytes.toString());
+    } catch (error) {
+      let jsonError = {};
+      jsonError.Error = `Unable to decode json of ${args[0]}`;
+      throw new Error(JSON.stringify(jsonError));
+    }
+
+    try {
+      const amount = parseInt(args[1]);
+      farmer.amount += amount;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+
+    await stub.putState(farmerID, Buffer.from(JSON.stringify(farmer)));
   }
 
   async readFarmerSupplierData(stub, args, thisClass) {
