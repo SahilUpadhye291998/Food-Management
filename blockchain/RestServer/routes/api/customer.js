@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const user = require('../../methods/customer');
+const user = require("../../methods/customer");
 
 //@route    POST api/user/registerUser
 //@desc     To generate User credentials
 //@access   PUBLIC
-router.post('/registerUser', async (req, res) => {
-  console.log('OK');
+router.post("/registerUser", async (req, res) => {
+  console.log("OK");
   const secretUserName = req.body.secretUsername;
   const userOrg = req.body.orgName;
   const json = {};
@@ -15,13 +15,13 @@ router.post('/registerUser', async (req, res) => {
     .registerCustomer(secretUserName, userOrg)
     .then(() => {
       json.code = 200;
-      json.Message = 'User enrolled successfully';
+      json.Message = "User enrolled successfully";
       res.status(200).send(json);
     })
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.Message = 'Some error has occured';
+      json.Message = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -29,7 +29,7 @@ router.post('/registerUser', async (req, res) => {
 //@route    POST api/user/login
 //@desc     Login User with credentials from Blockchain
 //@access   PUBLIC
-router.post('/login', (req, res) => {
+router.post("/login", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.userName;
@@ -40,7 +40,7 @@ router.post('/login', (req, res) => {
     .readCustomerByOwnerAndPassword(
       secretUserName,
       userName + userMobile,
-      userPassword,
+      userPassword
     )
     .then(result => {
       res.status(200).send(result);
@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
 //@route    POST api/user/signup
 //@desc     Signup User credentials from Blockchain
 //@access   PUBLIC
-router.post('/signup', (req, res) => {
+router.post("/signup", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.userName;
@@ -72,7 +72,7 @@ router.post('/signup', (req, res) => {
       userAddress,
       userMobile,
       userSecret,
-      userAmount,
+      userAmount
     )
     .then(result => {
       res.status(200).send(result);
@@ -80,7 +80,7 @@ router.post('/signup', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -88,7 +88,7 @@ router.post('/signup', (req, res) => {
 //@route    POST api/user/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
-router.post('/getUser', (req, res) => {
+router.post("/getUser", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUsername;
   const userName = req.body.userName;
@@ -102,7 +102,7 @@ router.post('/getUser', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -110,7 +110,7 @@ router.post('/getUser', (req, res) => {
 //@route    POST api/user/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
-router.post('/getCustomerSupplierData', (req, res) => {
+router.post("/getCustomerSupplierData", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
@@ -124,7 +124,7 @@ router.post('/getCustomerSupplierData', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -132,7 +132,7 @@ router.post('/getCustomerSupplierData', (req, res) => {
 //@route    POST api/user/getUserHistory
 //@desc     Transaction history of the user
 //@access   PUBLIC
-router.post('/getUserHistory', (req, res) => {
+router.post("/getUserHistory", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
@@ -148,7 +148,32 @@ router.post('/getUserHistory', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
+//@route    POST api/user/getUserHistory
+//@desc     Transaction history of the user
+//@access   PUBLIC
+router.post("/addCustomerAmount", (req, res) => {
+  console.log(req.body.secretUserName);
+  const secretUserName = req.body.secretUserName;
+  const userName = req.body.userName;
+  const userMobile = req.body.userMobile;
+  const userAmount = req.body.userAmount;
+  const json = {};
+  user
+    .addCustomerAmount(secretUserName, userName + userMobile, userAmount)
+    .then(result => {
+      json.code = 200;
+      json.data = result;
+      res.status(200).send(json);
+    })
+    .catch(error => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -156,7 +181,7 @@ router.post('/getUserHistory', (req, res) => {
 //@route    POST api/user/addProductCustomerSupplier
 //@desc     Transaction history of the user
 //@access   PUBLIC
-router.post('/addProductCustomerSupplier', (req, res) => {
+router.post("/addProductCustomerSupplier", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
@@ -175,7 +200,7 @@ router.post('/addProductCustomerSupplier', (req, res) => {
       supplierName + supplierMobile,
       productName,
       productQuantity,
-      productPrice,
+      productPrice
     )
     .then(result => {
       json.code = 200;
@@ -185,7 +210,7 @@ router.post('/addProductCustomerSupplier', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });

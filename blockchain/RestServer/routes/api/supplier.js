@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const user = require('../../methods/supplier');
+const user = require("../../methods/supplier");
 
 //@route    POST api/company/registerCompany
 //@desc     To generate Company credentials
 //@access   PUBLIC
-router.post('/registerSupplier', async (req, res) => {
+router.post("/registerSupplier", async (req, res) => {
   console.log(req.body.orgName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierOrg = req.body.orgName;
@@ -15,13 +15,13 @@ router.post('/registerSupplier', async (req, res) => {
     .registerSupplier(secretSupplierName, supplierOrg)
     .then(() => {
       json.code = 200;
-      json.Message = 'Company enrolled successfully';
+      json.Message = "Company enrolled successfully";
       res.status(200).send(json);
     })
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.Message = 'Some error has occured';
+      json.Message = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -29,7 +29,7 @@ router.post('/registerSupplier', async (req, res) => {
 //@route    POST api/company/signup
 //@desc     To signup Company and initialize in Blockchain
 //@access   PUBLIC
-router.post('/signup', (req, res) => {
+router.post("/signup", (req, res) => {
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
   const supplierAddress = req.body.supplierAddress;
@@ -44,7 +44,7 @@ router.post('/signup', (req, res) => {
       supplierAddress,
       supplierMobile,
       supplierSecret,
-      supplierAmount,
+      supplierAmount
     )
     .then(result => {
       res.status(200).send(result);
@@ -52,7 +52,7 @@ router.post('/signup', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -60,7 +60,7 @@ router.post('/signup', (req, res) => {
 //@route    POST api/company/login
 //@desc     To login Company from Blockchain
 //@access   PUBLIC
-router.post('/login', (req, res) => {
+router.post("/login", (req, res) => {
   console.log(req.body.secretUserName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
@@ -71,7 +71,7 @@ router.post('/login', (req, res) => {
     .readSupplierByOwnerAndPassword(
       secretSupplierName,
       supplierName + supplierMobile,
-      supplierPassword,
+      supplierPassword
     )
     .then(result => {
       res.status(200).send(result);
@@ -79,7 +79,7 @@ router.post('/login', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -87,7 +87,7 @@ router.post('/login', (req, res) => {
 //@route    POST api/company/readCompany
 //@desc     To read company with name in hyperledger
 //@access   PUBLIC
-router.post('/readSupplier', (req, res) => {
+router.post("/readSupplier", (req, res) => {
   console.log(req.body.secretUserName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
@@ -102,7 +102,32 @@ router.post('/readSupplier', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
+      res.status(500).send(json);
+    });
+});
+
+//@route    POST api/user/getUserHistory
+//@desc     Transaction history of the user
+//@access   PUBLIC
+router.post("/addSupplierAmount", (req, res) => {
+  console.log(req.body.secretUsername);
+  const secretUserName = req.body.secretUserName;
+  const userName = req.body.userName;
+  const userMobile = req.body.userMobile;
+  const userAmount = req.body.userAmount;
+  const json = {};
+  user
+    .addSupplierAmount(secretUserName, userName + userMobile, userAmount)
+    .then(result => {
+      json.code = 200;
+      json.data = result;
+      res.status(200).send(json);
+    })
+    .catch(error => {
+      console.log(error);
+      json.code = 500;
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -110,7 +135,7 @@ router.post('/readSupplier', (req, res) => {
 //@route    POST api/company/readCompanyHistory
 //@desc     Read the history of the company with transaction history
 //@access   PUBLIC
-router.post('/readSupplierHistory', (req, res) => {
+router.post("/readSupplierHistory", (req, res) => {
   console.log(req.body.secretUserName);
   const secretSupplierName = req.body.secretSupplierName;
   const supplierName = req.body.supplierName;
@@ -125,7 +150,7 @@ router.post('/readSupplierHistory', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -133,12 +158,12 @@ router.post('/readSupplierHistory', (req, res) => {
 //@route    POST api/user/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
-router.post('/readSupplierCustomerData', (req, res) => {
+router.post("/readSupplierCustomerData", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
   const userMobile = req.body.userMobile;
-  console.log({secretUserName, userName, userMobile});
+  console.log({ secretUserName, userName, userMobile });
   const json = {};
   user
     .readSupplierCustomerData(secretUserName, userName + userMobile)
@@ -148,7 +173,7 @@ router.post('/readSupplierCustomerData', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -156,7 +181,7 @@ router.post('/readSupplierCustomerData', (req, res) => {
 //@route    POST api/user/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
-router.post('/readSupplierFarmerData', (req, res) => {
+router.post("/readSupplierFarmerData", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
@@ -170,7 +195,7 @@ router.post('/readSupplierFarmerData', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -178,7 +203,7 @@ router.post('/readSupplierFarmerData', (req, res) => {
 //@route    POST api/user/addProductCustomerSupplier
 //@desc     Transaction history of the user
 //@access   PUBLIC
-router.post('/addProductCustomerSupplier', (req, res) => {
+router.post("/addProductCustomerSupplier", (req, res) => {
   const secretUserName = req.body.secretUserName;
   const userName = req.body.userName;
   const userMobile = req.body.userMobile;
@@ -195,7 +220,7 @@ router.post('/addProductCustomerSupplier', (req, res) => {
       supplierName + supplierMobile,
       productName,
       productQuantity,
-      productPrice,
+      productPrice
     )
     .then(result => {
       json.code = 200;
@@ -205,7 +230,7 @@ router.post('/addProductCustomerSupplier', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });
@@ -213,7 +238,7 @@ router.post('/addProductCustomerSupplier', (req, res) => {
 //@route    POST api/user/addProductCustomerSupplier
 //@desc     Transaction history of the user
 //@access   PUBLIC
-router.post('/addProductFarmerSupplier', (req, res) => {
+router.post("/addProductFarmerSupplier", (req, res) => {
   console.log(req.body.secretUsername);
   const secretUserName = req.body.secretUserName;
   const farmerName = req.body.farmerName;
@@ -231,7 +256,7 @@ router.post('/addProductFarmerSupplier', (req, res) => {
       supplierName + supplierMobile,
       productName,
       productQuantity,
-      productPrice,
+      productPrice
     )
     .then(result => {
       json.code = 200;
@@ -241,7 +266,7 @@ router.post('/addProductFarmerSupplier', (req, res) => {
     .catch(error => {
       console.log(error);
       json.code = 500;
-      json.data = 'Some error has occured';
+      json.data = "Some error has occured";
       res.status(500).send(json);
     });
 });

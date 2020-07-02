@@ -1,79 +1,86 @@
-import React from 'react';
-import {Redirect} from 'react-router-dom';
+import React from "react";
+import { Redirect } from "react-router-dom";
 
 // Layout Types
-import {DefaultLayout, CustomLayout} from './layouts';
+import { DefaultLayout, CustomLayout } from "./layouts";
 
 // Route Views
-import Dashboard from './views/Dashboard';
-import Login from './views/Login';
-import Register from './views/Register';
-import History from './views/History';
-import TransactionHistory from './views/TransactionHistory';
-import TransactionHistorySupplier from './views/TransactionHistorySupplier';
-import UserProfileLite from './views/UserProfileLite';
-import AuthorizeUser from './views/admin/AuthorizeUser';
-import BaseTransaction from './views/transactions/BaseTransaction';
+import Dashboard from "./views/Dashboard";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import History from "./views/History";
+import TransactionHistory from "./views/TransactionHistory";
+import TransactionHistorySupplier from "./views/TransactionHistorySupplier";
+import UserProfileLite from "./views/UserProfileLite";
+import AuthorizeUser from "./views/admin/AuthorizeUser";
+import BaseTransaction from "./views/transactions/BaseTransaction";
+import BaseAmount from "./views/amounts/BaseAmount";
 
 export default [
   {
-    path: '/',
+    path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/dashboard" />,
+    component: () => <Redirect to="/dashboard" />
   },
   {
-    path: '/dashboard',
+    path: "/dashboard",
     layout: DefaultLayout,
     exact: true,
-    component: Dashboard,
+    component: Dashboard
   },
   {
-    path: '/login',
+    path: "/login",
     layout: CustomLayout,
     exact: true,
-    component: Login,
+    component: Login
   },
   {
-    path: '/register',
+    path: "/register",
     layout: CustomLayout,
     exact: true,
-    component: Register,
+    component: Register
   },
   {
-    path: '/history',
+    path: "/history",
     layout: DefaultLayout,
     exact: true,
-    component: History,
+    component: History
   },
   {
-    path: '/transaction-history',
+    path: "/transaction-history",
     layout: DefaultLayout,
     exact: true,
-    component: TransactionHistory,
+    component: TransactionHistory
   },
   {
-    path: '/transaction-history-supplier',
+    path: "/transaction-history-supplier",
     layout: DefaultLayout,
     exact: true,
-    component: TransactionHistorySupplier,
+    component: TransactionHistorySupplier
   },
   {
-    path: '/admin/authUser',
+    path: "/admin/authUser",
     layout: DefaultLayout,
     exact: true,
-    component: AuthorizeUser,
+    component: AuthorizeUser
   },
   {
-    path: '/transaction-add',
+    path: "/add-amount",
     layout: DefaultLayout,
     exact: true,
-    component: BaseTransaction,
+    component: BaseAmount
   },
   {
-    path: '/profile',
+    path: "/transaction-add",
     layout: DefaultLayout,
     exact: true,
-    component: UserProfileLite,
+    component: BaseTransaction
   },
+  {
+    path: "/profile",
+    layout: DefaultLayout,
+    exact: true,
+    component: UserProfileLite
+  }
 ];
