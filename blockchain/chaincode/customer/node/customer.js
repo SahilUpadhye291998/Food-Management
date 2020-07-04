@@ -495,6 +495,9 @@ let Chaincode = class {
       throw new Error(JSON.stringify(jsonError));
     }
 
+    if (parseInt(args[3]) < 0 || parseInt(args[4] < 0)) {
+      throw new Error("Invalid price and/or quantity");
+    }
     const product = {
       customerID: customerID,
       supplierID: supplierID,
@@ -554,6 +557,9 @@ let Chaincode = class {
       jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
+    if (parseInt(args[3]) < 0 || parseInt(args[4] < 0)) {
+      throw new Error("Invalid price and/or quantity");
+    }
 
     const product = {
       farmerID: farmerID,
@@ -600,6 +606,9 @@ let Chaincode = class {
       jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
+    if (parseInt(args[1]) < 0) {
+      throw new Error("Invalid price and/or quantity");
+    }
 
     try {
       const amount = parseInt(args[1]);
@@ -628,6 +637,9 @@ let Chaincode = class {
       jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
     }
+    if (parseInt(args[1]) < 0) {
+      throw new Error("Invalid price and/or quantity");
+    }
 
     try {
       const amount = parseInt(args[1]);
@@ -655,6 +667,9 @@ let Chaincode = class {
       let jsonError = {};
       jsonError.Error = `Unable to decode json of ${args[0]}`;
       throw new Error(JSON.stringify(jsonError));
+    }
+    if (parseInt(args[1]) < 0) {
+      throw new Error("Invalid price and/or quantity");
     }
 
     try {

@@ -57,6 +57,9 @@ peer chaincode invoke -o orderer.example.com:7050 \
 echo "Sleeping 3 sec"
 sleep 3
 
+echo "================================================================"
+echo "Invalid transaction"
+echo "================================================================"
 #==== Invoke marbles ====
 echo 
 peer chaincode invoke -o orderer.example.com:7050 \
@@ -70,7 +73,20 @@ peer chaincode invoke -o orderer.example.com:7050 \
     --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt \
     --peerAddresses peer0.org3.example.com:11051 \
     --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt \
-    -c '{"Args":["addProductFarmerSupplier","FarmerTest12345678","Sahil12345678","product 4","10", "100"]}'
+    -c '{"Args":["addProductFarmerSupplier","FarmerTest12345678","Sahil12345678","product 4","-1", "100"]}'
+echo 
+peer chaincode invoke -o orderer.example.com:7050 \
+    --tls true \
+    --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
+    -C mychannel \
+    -n mycc \
+    --peerAddresses peer0.org1.example.com:7051 \
+    --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt \
+    --peerAddresses peer0.org2.example.com:9051 \
+    --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt \
+    --peerAddresses peer0.org3.example.com:11051 \
+    --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt \
+    -c '{"Args":["addProductCustomerSupplier","xGod66612345678","Sahil12345678","product 4","-1", "100"]}'
 
 
 echo "Sleeping for 5 sec"
