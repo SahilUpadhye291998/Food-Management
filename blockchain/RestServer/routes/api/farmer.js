@@ -3,7 +3,7 @@ const router = express.Router();
 
 const user = require("../../methods/farmer");
 
-//@route    POST api/company/registerCompany
+//@route    POST api/farmer/registerCompany
 //@desc     To generate Company credentials
 //@access   PUBLIC
 router.post("/registerFarmer", async (req, res) => {
@@ -25,7 +25,7 @@ router.post("/registerFarmer", async (req, res) => {
     });
 });
 
-//@route    POST api/company/signup
+//@route    POST api/farmer/signup
 //@desc     To signup Company and initialize in Blockchain
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
@@ -83,7 +83,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-//@route    POST api/company/readCompany
+//@route    POST api/farmer/readCompany
 //@desc     To read company with name in hyperledger
 //@access   PUBLIC
 router.post("/readFarmer", (req, res) => {
@@ -106,7 +106,7 @@ router.post("/readFarmer", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUser
+//@route    POST api/farmer/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
 router.post("/getFarmerSupplierData", (req, res) => {
@@ -128,7 +128,7 @@ router.post("/getFarmerSupplierData", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUserHistory
+//@route    POST api/farmer/getUserHistory
 //@desc     Transaction history of the user
 //@access   PUBLIC
 router.post("/addFarmerAmount", (req, res) => {
@@ -153,7 +153,7 @@ router.post("/addFarmerAmount", (req, res) => {
     });
 });
 
-//@route    POST api/company/readCompanyHistory
+//@route    POST api/farmer/readCompanyHistory
 //@desc     Read the history of the company with transaction history
 //@access   PUBLIC
 router.post("/readFarmerHistory", (req, res) => {
@@ -176,7 +176,7 @@ router.post("/readFarmerHistory", (req, res) => {
     });
 });
 
-//@route    POST api/user/addProductCustomerSupplier
+//@route    POST api/farmer/addProductCustomerSupplier
 //@desc     Transaction history of the user
 //@access   PUBLIC
 router.post("/addProductFarmerSupplier", (req, res) => {

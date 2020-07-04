@@ -3,7 +3,7 @@ const router = express.Router();
 
 const user = require("../../methods/supplier");
 
-//@route    POST api/company/registerCompany
+//@route    POST api/supplier/registerCompany
 //@desc     To generate Company credentials
 //@access   PUBLIC
 router.post("/registerSupplier", async (req, res) => {
@@ -26,7 +26,7 @@ router.post("/registerSupplier", async (req, res) => {
     });
 });
 
-//@route    POST api/company/signup
+//@route    POST api/supplier/signup
 //@desc     To signup Company and initialize in Blockchain
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
@@ -57,7 +57,7 @@ router.post("/signup", (req, res) => {
     });
 });
 
-//@route    POST api/company/login
+//@route    POST api/supplier/login
 //@desc     To login Company from Blockchain
 //@access   PUBLIC
 router.post("/login", (req, res) => {
@@ -84,7 +84,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-//@route    POST api/company/readCompany
+//@route    POST api/supplier/readCompany
 //@desc     To read company with name in hyperledger
 //@access   PUBLIC
 router.post("/readSupplier", (req, res) => {
@@ -132,7 +132,7 @@ router.post("/addSupplierAmount", (req, res) => {
     });
 });
 
-//@route    POST api/company/readCompanyHistory
+//@route    POST api/supplier/readCompanyHistory
 //@desc     Read the history of the company with transaction history
 //@access   PUBLIC
 router.post("/readSupplierHistory", (req, res) => {

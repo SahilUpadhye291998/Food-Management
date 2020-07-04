@@ -3,7 +3,7 @@ const router = express.Router();
 
 const user = require("../../methods/customer");
 
-//@route    POST api/user/registerUser
+//@route    POST api/customer/registerUser
 //@desc     To generate User credentials
 //@access   PUBLIC
 router.post("/registerUser", async (req, res) => {
@@ -26,7 +26,7 @@ router.post("/registerUser", async (req, res) => {
     });
 });
 
-//@route    POST api/user/login
+//@route    POST api/customer/login
 //@desc     Login User with credentials from Blockchain
 //@access   PUBLIC
 router.post("/login", (req, res) => {
@@ -53,7 +53,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-//@route    POST api/user/signup
+//@route    POST api/customer/signup
 //@desc     Signup User credentials from Blockchain
 //@access   PUBLIC
 router.post("/signup", (req, res) => {
@@ -85,7 +85,7 @@ router.post("/signup", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUser
+//@route    POST api/customer/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
 router.post("/getUser", (req, res) => {
@@ -107,7 +107,7 @@ router.post("/getUser", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUser
+//@route    POST api/customer/getUser
 //@desc     To read the user from the database
 //@access   PUBLIC
 router.post("/getCustomerSupplierData", (req, res) => {
@@ -129,7 +129,7 @@ router.post("/getCustomerSupplierData", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUserHistory
+//@route    POST api/customer/getUserHistory
 //@desc     Transaction history of the user
 //@access   PUBLIC
 router.post("/getUserHistory", (req, res) => {
@@ -153,7 +153,7 @@ router.post("/getUserHistory", (req, res) => {
     });
 });
 
-//@route    POST api/user/getUserHistory
+//@route    POST api/customer/getUserHistory
 //@desc     Transaction history of the user
 //@access   PUBLIC
 router.post("/addCustomerAmount", (req, res) => {
@@ -178,7 +178,7 @@ router.post("/addCustomerAmount", (req, res) => {
     });
 });
 
-//@route    POST api/user/addProductCustomerSupplier
+//@route    POST api/customer/addProductCustomerSupplier
 //@desc     Transaction history of the user
 //@access   PUBLIC
 router.post("/addProductCustomerSupplier", (req, res) => {
