@@ -163,6 +163,9 @@ router.post("/addCustomerAmount", (req, res) => {
   const userMobile = req.body.userMobile;
   const userAmount = req.body.userAmount;
   const json = {};
+  if (parseInt(userAmount) <= 0) {
+    return res.status(500).json({ message: "Amount is not valid" });
+  }
   user
     .addCustomerAmount(secretUserName, userName + userMobile, userAmount)
     .then(result => {
@@ -192,6 +195,9 @@ router.post("/addProductCustomerSupplier", (req, res) => {
   const productQuantity = req.body.productQuantity;
   const productPrice = req.body.productPrice;
   const json = {};
+  if (parseInt(productPrice) <= 0 || parseInt(productQuantity) <= 0) {
+    return res.status(500).json({ message: "Price or quantity is not valid" });
+  }
 
   user
     .addProductCustomerSupplier(
@@ -205,12 +211,14 @@ router.post("/addProductCustomerSupplier", (req, res) => {
     .then(result => {
       json.code = 200;
       json.data = result;
+      console.log(result);
       res.status(200).send(json);
     })
     .catch(error => {
       console.log(error);
       json.code = 500;
       json.data = "Some error has occured";
+      console.log(result);
       res.status(500).send(json);
     });
 });

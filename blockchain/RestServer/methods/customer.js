@@ -4,6 +4,7 @@ const {
   X509WalletMixin
 } = require("fabric-network");
 const path = require("path");
+const { log } = require("util");
 
 const ccpPath = path.resolve(__dirname, "..", "..", "connection-org1.json");
 
@@ -288,9 +289,8 @@ async function addProductCustomerSupplier(
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = new FileSystemWallet(walletPath);
     console.log(walletPath);
-    console.log(secretUserName);
-    console.log(customerID);
-    console.log(supplierID);
+    console.log(productPrice);
+    console.log(productQuantity);
 
     const userExists = await wallet.exists(secretUserName);
     if (!userExists) {
@@ -312,28 +312,34 @@ async function addProductCustomerSupplier(
 
     const contract = await network.getContract("mycc");
 
-    await contract.submitTransaction(
-      "addProductCustomerSupplier",
-      customerID,
-      supplierID,
-      productName,
-      productQuantity,
-      productPrice
-    );
+    try {
+      await contract.submitTransaction(
+        "addProductCustomerSupplier",
+        customerID,
+        supplierID,
+        productName,
+        productQuantity,
+        productPrice
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    await gateway.disconnect();
 
     const json = {
+      status: 200,
       message: "Added Successfully"
     };
 
-    await gateway.disconnect();
     return json;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     const json = {
+      status: 500,
       message: "UnSuccessfully in paying the premium"
     };
-    console.log("Some error has occured please contact web Master");
-    return json;
+    console.log("some errir has occured");
+    throw new Error(json);
   }
 }
 

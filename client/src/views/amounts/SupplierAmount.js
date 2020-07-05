@@ -1,20 +1,16 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   Container,
   Card,
   CardHeader,
-  Button,
   ListGroup,
   ListGroupItem,
-  Progress,
   Row,
   Col
 } from "shards-react";
 
 import PageTitle from "../../components/common/PageTitle";
 import axios from "axios";
-import Constant from "../../Constant";
 import { Store } from "../../flux";
 
 export default class SupplierAmount extends Component {

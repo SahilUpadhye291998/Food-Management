@@ -1,42 +1,38 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from "react";
 import {
   Container,
   Card,
   CardHeader,
-  Button,
   ListGroup,
   ListGroupItem,
-  Progress,
   Row,
-  Col,
-} from 'shards-react';
+  Col
+} from "shards-react";
 
-import PageTitle from '../../components/common/PageTitle';
-import axios from 'axios';
-import Constant from '../../Constant';
+import PageTitle from "../../components/common/PageTitle";
+import axios from "axios";
 
 export default class SupplierFarmerTranaction extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userSecret: '',
-      farmerName: '',
-      farmerPhone: '',
-      supplierName: '',
-      supplierPhone: '',
-      productName: '',
-      price: '',
-      quantity: '',
+      userSecret: "",
+      farmerName: "",
+      farmerPhone: "",
+      supplierName: "",
+      supplierPhone: "",
+      productName: "",
+      price: "",
+      quantity: ""
     };
   }
 
   handleInput = event => {
     event.preventDefault();
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -50,24 +46,24 @@ export default class SupplierFarmerTranaction extends Component {
       supplierMobile: this.state.supplierPhone,
       productName: this.state.productName,
       productQuantity: this.state.quantity,
-      productPrice: this.state.price,
+      productPrice: this.state.price
     };
     console.log(transaction);
 
     axios
       .post(
-        'http://localhost:5000/api/supplier/addProductFarmerSupplier',
-        transaction,
+        "http://localhost:5000/api/supplier/addProductFarmerSupplier",
+        transaction
       )
       .then(response => response.data)
       .then(result => {
-        if (result.hasOwnProperty('data')) {
-          alert('Product Purchased successfully');
+        if (result.hasOwnProperty("data")) {
+          alert("Product Purchased successfully");
           console.log(result);
         }
       })
       .catch(err => console.error(err));
-    alert('Update API will be called from here');
+    alert("Update API will be called from here");
   };
 
   render() {
@@ -92,9 +88,9 @@ export default class SupplierFarmerTranaction extends Component {
                   <img
                     className="rounded-circle"
                     src={
-                      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACCCAMAAAC93eDPAAAA1VBMVEX////9z4WZVDtgotdkpdlXm9NSmNFnqNtbntVsqt1Plc/tvXdKk89qnMhvrd//14r9zHyWTjOUTTf/0n32x3+4jHuRSDSeWj7+79j/+vOSRieQQB3LlGGnaEbUn2jquXfCiVu1eVH90o7+5cD/9OT92qSiwuDx8/Xl7PPxzIzKwKfE1ONZpN/WxJ9vp9WdutWRt9t/q9Tt39fUuKvFo5m/mIvgzcW2hGuQPBOnbVmvfGrw6OSkZEqtc1fgrnH91pn+37K4wsvexpmpt7uftseyy+KJr8sSdecGAAAETklEQVR4nO2ZbVuiTBSAG0FRMUAkWdR8qwQXNKjWra11XxT+/096ZsB81JQZbA7Ph4f7uqoPwZy7c84cBru4KCgoKCgoKODOw+PTVcK3p6fHxWvO4a3F926309yh031+eXzIz2Dxs9ksfaDZab4s8hGwrrpHBDYWP/IoyOvbKYFYogufiFczzQAD7mCl5iABuCu/0w2aL6AGi2eqQanUgSyF9cZgAJuGxw6LQukZsBuYkkCwoQwYk4C74QpK4Sd9O7wDNSS7zAZQm8KiKujtdjtR+Aaj8NDdxNFPhDdHfUOOf9n8AaOwIN2om73+8Nos6XuUzOtRf2AghNRlrPAGqGDKKlKRMVj2e8PhiDDs9Zc4uqqiGHUUJwVG4QErtJebSCTYBrSH2ift0IRReMW90DYQjSWgAtkR7QFVATILFyZW6KsUA3Wkw/UCOSzoI1oS1GtiYMIYWIbJqqD3bkEUxupQ13ssCvo1QhAGNxpu9vaSSWGAtN/8DawxQgOdviOwQlIti7vCrYaQYbZlqsJIj1OlfeGu8CVRoI4m0jDkp3YDooAG1FYgA3qkAiqwMGj3gLJwy6pgmP1YgX8vkB3B6BB/1wCG0x2rQsKY/6Zkb4YkCfxbAXOXwUGDSEImB+0XjAF7S8JUIYGxJQE25JYbxlJAleGCeT7dwRngYwtTHQBbgbESGmAd8J5gUfgFacC0JyD3A4GhIcewBgxpgE4CQxqAO4FA2RQQ54QPpM4G2JnwjvUfl4GQdngBnUosDrk0QrqDnJ/Ciekg56lwc+zdUs5ZQT58uzTkfBXuSDzjUEDOZyokaHHErUQiIOfwiNqCd8Qm6g7ERwM9s+0y3nTfLpvJkFMpfmu76d8rCciHTB/ZeVYahiHjr70JCfYmtcWmvte1/kwcuPDuRIlaFAPUCiQlCCEscPy5WFOkKcVA+1tTFEWSfJfv/wpt1xcksrRSW1HS0FrH1ymKWJu4vOI7biBKyjvi39Rm0Gbe9tKapPAoiO0GtX/jk3Wj1KPbNKjtXi3VPlsQezLHBdhHXKeUQluLB5dLQvCZejjC4YIE77RDKzp2gxCcbzA/zMAmD9H0aD9o08g7foN/roIvSscRg6/og4SGvs5P3SCE5xm4wokFMV40a+2Vo9WaRd7p68XzerIqpiB44mo2bW2YzlaiJ6RdflYpwlQFDI45j9ar1Tqai0JafEL5nAExpyya/HVVz6vSwp+bBrcscKWSPQ0BXwOhmjkNTpWzglDNmoZ7znUQhPJ9RoVylTvlbAZuhb9CJdvj6h4iC9meVvUyAI0sU9ppQCjUszysfJAsVOYZFNxGvcKdeiNTPzpBo8E5fiPIOpvsEFs06vXPpgOvgNe59M87QNru/bxMFohVzoDcWakG+BD9mVO07bjhJKiWk/WyUK+XL/3Qdbi9VFm247huGE58P7hMIfD9SRi6rus4eX0OWlBQUFBQUFBQUPD/4h/n7o58nTWwSQAAAABJRU5ErkJggg=='
+                      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACCCAMAAAC93eDPAAAA1VBMVEX////9z4WZVDtgotdkpdlXm9NSmNFnqNtbntVsqt1Plc/tvXdKk89qnMhvrd//14r9zHyWTjOUTTf/0n32x3+4jHuRSDSeWj7+79j/+vOSRieQQB3LlGGnaEbUn2jquXfCiVu1eVH90o7+5cD/9OT92qSiwuDx8/Xl7PPxzIzKwKfE1ONZpN/WxJ9vp9WdutWRt9t/q9Tt39fUuKvFo5m/mIvgzcW2hGuQPBOnbVmvfGrw6OSkZEqtc1fgrnH91pn+37K4wsvexpmpt7uftseyy+KJr8sSdecGAAAETklEQVR4nO2ZbVuiTBSAG0FRMUAkWdR8qwQXNKjWra11XxT+/096ZsB81JQZbA7Ph4f7uqoPwZy7c84cBru4KCgoKCgoKODOw+PTVcK3p6fHxWvO4a3F926309yh031+eXzIz2Dxs9ksfaDZab4s8hGwrrpHBDYWP/IoyOvbKYFYogufiFczzQAD7mCl5iABuCu/0w2aL6AGi2eqQanUgSyF9cZgAJuGxw6LQukZsBuYkkCwoQwYk4C74QpK4Sd9O7wDNSS7zAZQm8KiKujtdjtR+Aaj8NDdxNFPhDdHfUOOf9n8AaOwIN2om73+8Nos6XuUzOtRf2AghNRlrPAGqGDKKlKRMVj2e8PhiDDs9Zc4uqqiGHUUJwVG4QErtJebSCTYBrSH2ift0IRReMW90DYQjSWgAtkR7QFVATILFyZW6KsUA3Wkw/UCOSzoI1oS1GtiYMIYWIbJqqD3bkEUxupQ13ssCvo1QhAGNxpu9vaSSWGAtN/8DawxQgOdviOwQlIti7vCrYaQYbZlqsJIj1OlfeGu8CVRoI4m0jDkp3YDooAG1FYgA3qkAiqwMGj3gLJwy6pgmP1YgX8vkB3B6BB/1wCG0x2rQsKY/6Zkb4YkCfxbAXOXwUGDSEImB+0XjAF7S8JUIYGxJQE25JYbxlJAleGCeT7dwRngYwtTHQBbgbESGmAd8J5gUfgFacC0JyD3A4GhIcewBgxpgE4CQxqAO4FA2RQQ54QPpM4G2JnwjvUfl4GQdngBnUosDrk0QrqDnJ/Ciekg56lwc+zdUs5ZQT58uzTkfBXuSDzjUEDOZyokaHHErUQiIOfwiNqCd8Qm6g7ERwM9s+0y3nTfLpvJkFMpfmu76d8rCciHTB/ZeVYahiHjr70JCfYmtcWmvte1/kwcuPDuRIlaFAPUCiQlCCEscPy5WFOkKcVA+1tTFEWSfJfv/wpt1xcksrRSW1HS0FrH1ymKWJu4vOI7biBKyjvi39Rm0Gbe9tKapPAoiO0GtX/jk3Wj1KPbNKjtXi3VPlsQezLHBdhHXKeUQluLB5dLQvCZejjC4YIE77RDKzp2gxCcbzA/zMAmD9H0aD9o08g7foN/roIvSscRg6/og4SGvs5P3SCE5xm4wokFMV40a+2Vo9WaRd7p68XzerIqpiB44mo2bW2YzlaiJ6RdflYpwlQFDI45j9ar1Tqai0JafEL5nAExpyya/HVVz6vSwp+bBrcscKWSPQ0BXwOhmjkNTpWzglDNmoZ7znUQhPJ9RoVylTvlbAZuhb9CJdvj6h4iC9meVvUyAI0sU9ppQCjUszysfJAsVOYZFNxGvcKdeiNTPzpBo8E5fiPIOpvsEFs06vXPpgOvgNe59M87QNru/bxMFohVzoDcWakG+BD9mVO07bjhJKiWk/WyUK+XL/3Qdbi9VFm247huGE58P7hMIfD9SRi6rus4eX0OWlBQUFBQUFBQUPD/4h/n7o58nTWwSQAAAABJRU5ErkJggg=="
                     }
-                    alt={'Some user'}
+                    alt={"Some user"}
                     width="110"
                   />
                 </div>
@@ -232,7 +228,8 @@ export default class SupplierFarmerTranaction extends Component {
                   <Col md="6">
                     <button
                       className="col-md-6 mt-3 btn btn-warning"
-                      onClick={this.onSubmit}>
+                      onClick={this.onSubmit}
+                    >
                       Change User
                     </button>
                   </Col>

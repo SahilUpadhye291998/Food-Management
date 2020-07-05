@@ -1,9 +1,9 @@
-import React from 'react';
-import {Nav} from 'shards-react';
+import React from "react";
+import { Nav } from "shards-react";
 
-import SidebarNavItem from './SidebarNavItem';
-import {Store} from '../../../flux';
-import {Redirect} from 'react-router-dom';
+import SidebarNavItem from "./SidebarNavItem";
+import { Store } from "../../../flux";
+import { Redirect } from "react-router-dom";
 
 class SidebarNavItems extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class SidebarNavItems extends React.Component {
       navItemsSupplier: Store.getSidebarSuppler(),
       navItemsCustomer: Store.getSidebarNavCustomer(),
       navItemsFarmer: Store.getSidebarNavFarmer(),
-      user: Store.getToLoad(),
+      user: Store.getToLoad()
     };
 
     this.onChange = this.onChange.bind(this);
@@ -32,7 +32,7 @@ class SidebarNavItems extends React.Component {
   onChange() {
     this.setState({
       ...this.state,
-      navItems: Store.getSidebarItems(),
+      navItems: Store.getSidebarItems()
     });
   }
 
@@ -43,11 +43,11 @@ class SidebarNavItems extends React.Component {
       navItemsSupplier: itemsSupplier,
       navItemsFarmer: itemsFarmer,
       navItemsCustomer: itemsCustomer,
-      user: user,
+      user
     } = this.state;
-    if (user === 'admin-default') {
+    if (user === "admin-default") {
       return <Redirect to="/login" />;
-    } else if (user === 'admin') {
+    } else if (user === "admin") {
       return (
         <div className="nav-wrapper">
           <Nav className="nav--no-borders flex-column">
@@ -57,7 +57,7 @@ class SidebarNavItems extends React.Component {
           </Nav>
         </div>
       );
-    } else if (user === 'farmer') {
+    } else if (user === "farmer") {
       return (
         <div className="nav-wrapper">
           <Nav className="nav--no-borders flex-column">
@@ -67,7 +67,7 @@ class SidebarNavItems extends React.Component {
           </Nav>
         </div>
       );
-    } else if (user === 'supplier') {
+    } else if (user === "supplier") {
       return (
         <div className="nav-wrapper">
           <Nav className="nav--no-borders flex-column">
@@ -77,7 +77,7 @@ class SidebarNavItems extends React.Component {
           </Nav>
         </div>
       );
-    } else if (user === 'customer') {
+    } else if (user === "customer") {
       return (
         <div className="nav-wrapper">
           <Nav className="nav--no-borders flex-column">

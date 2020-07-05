@@ -138,6 +138,9 @@ router.post("/addFarmerAmount", (req, res) => {
   const userMobile = req.body.userMobile;
   const userAmount = req.body.userAmount;
   const json = {};
+  if (parseInt(userAmount) <= 0) {
+    return res.status(500).json({ message: "Price or quantity is not valid" });
+  }
   user
     .addFarmerAmount(secretUserName, userName + userMobile, userAmount)
     .then(result => {
@@ -190,6 +193,9 @@ router.post("/addProductFarmerSupplier", (req, res) => {
   const productQuantity = req.body.productQuantity;
   const productPrice = req.body.productPrice;
   const json = {};
+  if (parseInt(productPrice) <= 0 || parseInt(productQuantity) <= 0) {
+    return res.status(500).json({ message: "Amount is not valid" });
+  }
   user
     .addProductFarmerSupplier(
       secretUserName,

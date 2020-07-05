@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Container, Row, Col, Card, CardHeader, CardBody} from 'shards-react';
-import PageTitle from '../components/common/PageTitle';
-import axios from 'axios';
-import {Store} from '../flux';
-import DataTable, {createTheme} from 'react-data-table-component';
+import React, { Component } from "react";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
+import PageTitle from "../components/common/PageTitle";
+import axios from "axios";
+import { Store } from "../flux";
+import DataTable from "react-data-table-component";
 
 export default class TransactionHistorySupplier extends Component {
   _isMounted = true;
@@ -15,114 +15,114 @@ export default class TransactionHistorySupplier extends Component {
       dataCustomer: [],
       columnsFarmer: [
         {
-          name: 'supplier',
-          selector: 'supplierID',
+          name: "supplier",
+          selector: "supplierID",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Farmer',
-          selector: 'farmerID',
-          sortable: true,
+          name: "Farmer",
+          selector: "farmerID",
+          sortable: true
         },
         {
-          name: 'Name',
-          selector: 'productName',
+          name: "Name",
+          selector: "productName",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Price',
-          selector: 'productPrice',
+          name: "Price",
+          selector: "productPrice",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Quantity',
-          selector: 'productQuantity',
+          name: "Quantity",
+          selector: "productQuantity",
           sortable: true,
-          center: true,
-        },
+          center: true
+        }
       ],
       columnsCustomer: [
         {
-          name: 'supplier',
-          selector: 'supplierID',
+          name: "supplier",
+          selector: "supplierID",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Customer',
-          selector: 'customerID',
-          sortable: true,
+          name: "Customer",
+          selector: "customerID",
+          sortable: true
         },
         {
-          name: 'Name',
-          selector: 'productName',
+          name: "Name",
+          selector: "productName",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Price',
-          selector: 'productPrice',
+          name: "Price",
+          selector: "productPrice",
           sortable: true,
-          center: true,
+          center: true
         },
         {
-          name: 'Quantity',
-          selector: 'productQuantity',
+          name: "Quantity",
+          selector: "productQuantity",
           sortable: true,
-          center: true,
-        },
-      ],
+          center: true
+        }
+      ]
     };
   }
   componentDidMount() {
     this._isMounted = true;
-    console.log('OK');
-    let URL = '';
+    console.log("OK");
+    let URL = "";
     let user = {};
-    URL = 'http://localhost:5000/api/supplier/readSupplierCustomerData';
+    URL = "http://localhost:5000/api/supplier/readSupplierCustomerData";
     user = {
       secretUserName: Store.getUserSecret(),
       userName: Store.getUserName(),
-      userMobile: Store.getUserMobile(),
+      userMobile: Store.getUserMobile()
     };
-    console.log('user', user);
-    console.log('URL', URL);
+    console.log("user", user);
+    console.log("URL", URL);
     axios
       .post(URL, user)
       .then(responce => responce.data)
       .then(result => {
-        console.log('result', result);
+        console.log("result", result);
         if (this._isMounted === true) {
-          this.setState({dataCustomer: result});
+          this.setState({ dataCustomer: result });
         }
       })
       .catch(err => console.log(err));
 
-    URL = 'http://localhost:5000/api/supplier/readSupplierFarmerData';
+    URL = "http://localhost:5000/api/supplier/readSupplierFarmerData";
     user = {
       secretUserName: Store.getUserSecret(),
       userName: Store.getUserName(),
-      userMobile: Store.getUserMobile(),
+      userMobile: Store.getUserMobile()
     };
-    console.log('user', user);
-    console.log('URL', URL);
+    console.log("user", user);
+    console.log("URL", URL);
     axios
       .post(URL, user)
       .then(responce => responce.data)
       .then(result => {
-        console.log('result', result);
+        console.log("result", result);
         if (this._isMounted === true) {
-          this.setState({dataFarmer: result});
+          this.setState({ dataFarmer: result });
         }
       })
       .catch(err => console.log(err));
   }
   render() {
-    console.log('data', this.state.dataFarmer);
-    console.log('data', this.state.dataCustomer);
+    console.log("data", this.state.dataFarmer);
+    console.log("data", this.state.dataCustomer);
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
@@ -149,7 +149,7 @@ export default class TransactionHistorySupplier extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>{' '}
+        </Row>{" "}
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
           <PageTitle
@@ -174,7 +174,7 @@ export default class TransactionHistorySupplier extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>{' '}
+        </Row>{" "}
       </Container>
     );
   }
